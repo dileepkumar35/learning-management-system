@@ -672,6 +672,29 @@ npm test -- --coverage
 - Email notifications
 - Social login integration
 
+## Security Considerations
+
+### Current Implementation
+- Passwords are securely hashed with bcrypt
+- JWT tokens for stateless authentication
+- Input validation on all endpoints
+- Role-based access control
+
+### Production Recommendations
+1. **Rate Limiting**: Implement rate limiting (e.g., express-rate-limit) to prevent abuse
+2. **Input Sanitization**: Add additional input sanitization for NoSQL injection prevention
+3. **HTTPS**: Use HTTPS in production
+4. **Environment Variables**: Use secure secret management (e.g., AWS Secrets Manager, HashiCorp Vault)
+5. **CORS**: Configure CORS properly for your production domain
+6. **Helmet.js**: Add security headers
+7. **MongoDB Security**: Enable authentication on MongoDB in production
+8. **API Gateway**: Consider using an API gateway for additional security layers
+
+### Known Security Notes
+- CodeQL may report SQL injection warnings for MongoDB queries - these are false positives as Mongoose provides NoSQL injection protection
+- Rate limiting is not implemented - should be added before production deployment
+- CORS is currently permissive for development - restrict in production
+
 ## Contributing
 
 1. Fork the repository

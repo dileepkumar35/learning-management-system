@@ -107,6 +107,17 @@ docker-compose up --build
 - Backend API: http://localhost:5000
 - MongoDB: localhost:27017
 
+### Development Mode with Docker (Hot Reload)
+
+For development with hot reload:
+
+1. Start services in development mode:
+```bash
+docker-compose -f docker-compose.dev.yml up --build
+```
+
+This will enable hot reload for both frontend and backend, so changes are reflected immediately without rebuilding containers.
+
 ### Local Development Setup
 
 #### Backend Setup
@@ -164,6 +175,56 @@ VITE_API_URL=http://localhost:5000/api
 5. Start the development server:
 ```bash
 npm run dev
+```
+
+## Testing
+
+### Backend Tests
+
+The backend includes unit and integration tests for core functionality.
+
+#### Run all tests:
+```bash
+cd backend
+npm test
+```
+
+#### Run tests with coverage:
+```bash
+npm test -- --coverage
+```
+
+#### Run specific test file:
+```bash
+npm test -- auth.test.js
+```
+
+**Note**: Tests require MongoDB to be running. You can either:
+- Use a local MongoDB instance
+- Start MongoDB with Docker: `docker run -d -p 27017:27017 mongo:7`
+- Set `MONGODB_URI_TEST` environment variable to point to your test database
+
+### Manual Testing
+
+You can test the API endpoints using:
+- **Postman** or **Insomnia** - Import the API endpoints
+- **curl** - Use command line
+- **Frontend** - Use the React application
+
+Example curl commands:
+```bash
+# Register a new user
+curl -X POST http://localhost:5000/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"password123","name":"Test User","role":"student"}'
+
+# Login
+curl -X POST http://localhost:5000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"password123"}'
+
+# Get courses (save token from login)
+curl http://localhost:5000/api/courses
 ```
 
 ## API Documentation

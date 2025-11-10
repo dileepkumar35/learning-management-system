@@ -1,0 +1,71 @@
+Goal
+Build a mini Learning Management System (LMS) that lets instructors author courses (modules
+→ lessons), students enroll and complete lessons, take auto-graded quizzes, and track
+progress — delivered as a runnable app (Docker + docker-compose) with a REST API and
+tests.
+
+Problem Statement
+Create a small, production-minded LMS that demonstrates end-to-end product and engineering
+skills. Instructors must be able to create and manage courses (modules and lessons), add MCQ
+quizzes, and view students’ progress. Students must be able to sign up, enroll in courses, read
+lessons, complete them, take quizzes (auto-graded), and see a dashboard with progress and
+suggested next steps. Provide a documented REST API, database schema/migrations,
+unit/integration tests for core business logic, and easy local deployment (Docker). Focus on
+correctness, reproducibility, clean API design, and reasonable UX — not on visual polish.
+
+Requirements (must-implement)
+1) Authentication & roles
+● Email/password authentication (simple; secure storage of passwords required).
+● Two roles: student and instructor. (Admin optional.)
+● Role-based access control: instructor endpoints restricted.
+2) Course & content management
+● Instructor CRUD for courses, modules, lessons.
+● Lesson fields: title, description, content (text/Markdown), optional video_url
+or file reference.
+● Lessons ordered within modules.
+3) Enrollment
+● Students browse courses and enroll (open enrollment).
+● Enrollment status exposed in dashboards and APIs.
+4) Quizzes & auto-grading
+● Instructor can add quizzes (MCQ) per lesson.
+● Students take quizzes; MCQs auto-graded immediately; results stored with timestamps
+and scores.
+5) Student dashboard & progress
+● Student dashboard shows: enrolled courses, progress per course (lessons completed /
+total), recent quiz scores, and suggested next lesson.
+● Mark lessons complete; store completion timestamps.
+6) RESTful API & persistence
+● Full REST API exposing auth, courses, modules, lessons, enrollment, quiz-taking, and
+progress.
+● Use PostgreSQL (preferred) or MongoDB. Provide migrations/schema.
+7) Tests
+● Unit/integration tests covering core endpoints or business logic: enrollment flow,
+progress computation, quiz auto-grader, auth flows.
+8) Documentation & run instructions
+● README with setup, how to run locally, API docs (endpoints + example requests),
+design decisions, and known limitations.
+
+
+Deliverables
+● Public Git repository (or zipped project) including:
+○ Backend source code + migrations and tests.
+○ Frontend source code (or minimal frontend UI) demonstrating flows..
+○ README with setup, API docs, sample requests, and design notes.
+○ Test suite and how to run it.
+○ Hosted Demo Link or short Video
+
+Evaluation Criteria
+● Correctness & features — 30%
+Required features implemented and working (auth, role checks, course CRUD,
+enrollment, lesson completion, quiz auto-grading, progress).
+● API design & tests — 25%
+Clean RESTful endpoints, clear request/response contracts, and tests for core logic.\
+● Data integrity & persistence — 15%
+Database schema correctness, migrations, consistent progress calculations, and proper
+timestamping.
+● Code quality & architecture — 15%
+Modular code, sensible folder structure, clear separation of concerns, good error
+handling.
+● Docs & reproducibility — 15%
+README with one-command startup, API docs/examples, and developer notes. Docker
+compose works.

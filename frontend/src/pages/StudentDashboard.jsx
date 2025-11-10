@@ -38,8 +38,8 @@ const StudentDashboard = () => {
 
   if (loading) {
     return (
-      <Container>
-        <Box sx={{ mt: 4 }}>
+      <Container maxWidth="lg">
+        <Box sx={{ py: { xs: 2, sm: 4 } }}>
           <LinearProgress />
         </Box>
       </Container>
@@ -48,7 +48,7 @@ const StudentDashboard = () => {
 
   if (error) {
     return (
-      <Container>
+      <Container maxWidth="lg">
         <Alert severity="error" sx={{ mt: 4 }}>
           {error}
         </Alert>
@@ -58,7 +58,7 @@ const StudentDashboard = () => {
 
   return (
     <Container maxWidth="lg">
-      <Box sx={{ mt: 4, mb: 4 }}>
+      <Box sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1, sm: 2 } }}>
         <Typography variant="h4" gutterBottom>
           My Dashboard
         </Typography>
@@ -73,12 +73,12 @@ const StudentDashboard = () => {
             <Typography variant="h6" sx={{ mt: 3, mb: 2 }}>
               My Courses
             </Typography>
-            <Grid container spacing={3}>
+            <Grid container spacing={2}>
               {dashboard?.courses.map((course) => (
-                <Grid item xs={12} md={6} key={course.courseId}>
+                <Grid item xs={12} sm={6} md={6} lg={4} key={course.courseId}>
                   <Card>
                     <CardContent>
-                      <Typography variant="h6" gutterBottom>
+                      <Typography variant="h6" gutterBottom noWrap>
                         {course.courseTitle}
                       </Typography>
                       <Box sx={{ mb: 2 }}>
@@ -102,7 +102,7 @@ const StudentDashboard = () => {
                             color="primary"
                             sx={{ mr: 1 }}
                           />
-                          <Typography variant="body2" component="span">
+                          <Typography variant="body2" component="span" sx={{ display: 'block', mt: 0.5 }}>
                             {course.suggestedLesson.title}
                           </Typography>
                         </Box>

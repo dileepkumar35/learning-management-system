@@ -101,8 +101,8 @@ const LessonViewer = () => {
 
   if (loading) {
     return (
-      <Container>
-        <Box sx={{ mt: 4 }}>
+      <Container maxWidth="lg">
+        <Box sx={{ py: { xs: 2, sm: 4 } }}>
           <LinearProgress />
         </Box>
       </Container>
@@ -111,7 +111,7 @@ const LessonViewer = () => {
 
   if (error && !lesson) {
     return (
-      <Container>
+      <Container maxWidth="lg">
         <Alert severity="error" sx={{ mt: 4 }}>
           {error}
         </Alert>
@@ -121,7 +121,7 @@ const LessonViewer = () => {
 
   return (
     <Container maxWidth="md">
-      <Box sx={{ mt: 4, mb: 4 }}>
+      <Box sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1, sm: 2 } }}>
         <Button onClick={() => navigate(-1)} sx={{ mb: 2 }}>
           ← Back to Course
         </Button>
@@ -169,7 +169,7 @@ const LessonViewer = () => {
               </Box>
             )}
 
-            <Box sx={{ display: 'flex', gap: 2, mt: 3 }}>
+            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, mt: 3 }}>
               {!completed && (
                 <Button
                   variant="contained"
@@ -181,7 +181,7 @@ const LessonViewer = () => {
                 </Button>
               )}
               {completed && (
-                <Alert severity="success" icon={<CheckCircleIcon />}>
+                <Alert severity="success" icon={<CheckCircleIcon />} sx={{ flex: 1 }}>
                   Lesson completed!
                 </Alert>
               )}

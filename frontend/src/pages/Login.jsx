@@ -45,8 +45,14 @@ const Login = () => {
 
   return (
     <Container maxWidth="sm">
-      <Box sx={{ mt: 8, mb: 4 }}>
-        <Paper elevation={3} sx={{ p: 4 }}>
+      <Box sx={{ 
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: 'calc(100vh - 64px)',
+        py: { xs: 2, sm: 4, md: 8 }
+      }}>
+        <Paper elevation={3} sx={{ p: { xs: 2, sm: 4 }, width: '100%' }}>
           <Typography variant="h4" align="center" gutterBottom>
             Login
           </Typography>

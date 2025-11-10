@@ -99,8 +99,8 @@ const CourseDetail = () => {
 
   if (loading) {
     return (
-      <Container>
-        <Box sx={{ mt: 4 }}>
+      <Container maxWidth="lg">
+        <Box sx={{ py: { xs: 2, sm: 4 } }}>
           <LinearProgress />
         </Box>
       </Container>
@@ -109,7 +109,7 @@ const CourseDetail = () => {
 
   if (error || !course) {
     return (
-      <Container>
+      <Container maxWidth="lg">
         <Alert severity="error" sx={{ mt: 4 }}>
           {error || 'Course not found'}
         </Alert>
@@ -119,13 +119,13 @@ const CourseDetail = () => {
 
   return (
     <Container maxWidth="lg">
-      <Box sx={{ mt: 4, mb: 4 }}>
+      <Box sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1, sm: 2 } }}>
         <Card sx={{ mb: 3 }}>
           <CardContent>
             <Typography variant="h4" gutterBottom>
               {course.title}
             </Typography>
-            <Typography variant="body1" paragraph>
+            <Typography variant="body1" paragraph sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}>
               {course.description}
             </Typography>
             <Typography variant="body2" color="text.secondary">
@@ -186,16 +186,16 @@ const CourseDetail = () => {
                       >
                         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
                           {enrolled && isLessonComplete(lesson._id) ? (
-                            <CheckCircleIcon color="success" sx={{ mr: 2 }} />
+                            <CheckCircleIcon color="success" sx={{ mr: 2, flexShrink: 0 }} />
                           ) : (
-                            <PlayArrowIcon sx={{ mr: 2 }} />
+                            <PlayArrowIcon sx={{ mr: 2, flexShrink: 0 }} />
                           )}
                           <ListItemText
                             primary={lesson.title}
                             secondary={lesson.description}
                           />
                           {lesson.quiz && (
-                            <Chip label="Quiz" size="small" color="primary" />
+                            <Chip label="Quiz" size="small" color="primary" sx={{ ml: 1 }} />
                           )}
                         </Box>
                       </ListItemButton>

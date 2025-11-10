@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { Box } from '@mui/material';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
@@ -18,6 +19,21 @@ const theme = createTheme({
     },
     secondary: {
       main: '#dc004e',
+    },
+  },
+  components: {
+    MuiContainer: {
+      styleOverrides: {
+        root: {
+          width: '100%',
+          paddingLeft: 0,
+          paddingRight: 0,
+          '@media (min-width: 600px)': {
+            paddingLeft: 0,
+            paddingRight: 0,
+          },
+        },
+      },
     },
   },
 });
@@ -52,46 +68,52 @@ function App() {
       <CssBaseline />
       <Router>
         <AuthProvider>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Navigate to="/courses" />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/courses" element={<CoursesList />} />
-            <Route path="/courses/:id" element={<CourseDetail />} />
-            <Route
-              path="/lessons/:id"
-              element={
-                <PrivateRoute>
-                  <LessonViewer />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/dashboard"
-              element={
-                <PrivateRoute>
-                  <Dashboard />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/instructor/courses/new"
-              element={
-                <PrivateRoute>
-                  <InstructorDashboard />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/instructor/courses/:id"
-              element={
-                <PrivateRoute>
-                  <InstructorDashboard />
-                </PrivateRoute>
-              }
-            />
-          </Routes>
+          <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', minHeight: '100vh' }}>
+            <header>
+              <Navbar />
+            </header>
+            <main style={{ flex: 1, width: '100%', overflowY: 'auto' }}>
+              <Routes>
+                <Route path="/" element={<Navigate to="/courses" />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/courses" element={<CoursesList />} />
+                <Route path="/courses/:id" element={<CourseDetail />} />
+                <Route
+                  path="/lessons/:id"
+                  element={
+                    <PrivateRoute>
+                      <LessonViewer />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/dashboard"
+                  element={
+                    <PrivateRoute>
+                      <Dashboard />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/instructor/courses/new"
+                  element={
+                    <PrivateRoute>
+                      <InstructorDashboard />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/instructor/courses/:id"
+                  element={
+                    <PrivateRoute>
+                      <InstructorDashboard />
+                    </PrivateRoute>
+                  }
+                />
+              </Routes>
+            </main>
+          </Box>
         </AuthProvider>
       </Router>
     </ThemeProvider>

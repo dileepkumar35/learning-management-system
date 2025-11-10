@@ -40,8 +40,8 @@ const CoursesList = () => {
 
   if (loading) {
     return (
-      <Container>
-        <Box sx={{ mt: 4 }}>
+      <Container maxWidth="lg">
+        <Box sx={{ py: { xs: 2, sm: 4 } }}>
           <LinearProgress />
         </Box>
       </Container>
@@ -50,8 +50,8 @@ const CoursesList = () => {
 
   return (
     <Container maxWidth="lg">
-      <Box sx={{ mt: 4, mb: 4 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+      <Box sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1, sm: 2 } }}>
+        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'flex-start', sm: 'center' }, mb: 3, gap: 2 }}>
           <Typography variant="h4">
             Available Courses
           </Typography>
@@ -78,15 +78,15 @@ const CoursesList = () => {
             No courses available yet.
           </Alert>
         ) : (
-          <Grid container spacing={3}>
+          <Grid container spacing={2}>
             {courses.map((course) => (
-              <Grid item xs={12} md={6} lg={4} key={course._id}>
+              <Grid item xs={12} sm={6} md={4} key={course._id}>
                 <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                   <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography variant="h6" gutterBottom>
+                    <Typography variant="h6" gutterBottom noWrap>
                       {course.title}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" paragraph>
+                    <Typography variant="body2" color="text.secondary" paragraph sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
                       {course.description}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
@@ -96,7 +96,7 @@ const CoursesList = () => {
                       <Chip
                         label={`${course.modules?.length || 0} modules`}
                         size="small"
-                        sx={{ mr: 1 }}
+                        sx={{ mr: 1, mb: 1 }}
                       />
                       <Chip
                         label={`${course.modules?.reduce((sum, m) => sum + (m.lessons?.length || 0), 0) || 0} lessons`}

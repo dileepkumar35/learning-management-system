@@ -43,8 +43,8 @@ const InstructorDashboard = () => {
 
   if (loading) {
     return (
-      <Container>
-        <Box sx={{ mt: 4 }}>
+      <Container maxWidth="lg">
+        <Box sx={{ py: { xs: 2, sm: 4 } }}>
           <LinearProgress />
         </Box>
       </Container>
@@ -53,8 +53,8 @@ const InstructorDashboard = () => {
 
   return (
     <Container maxWidth="lg">
-      <Box sx={{ mt: 4, mb: 4 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+      <Box sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1, sm: 2 } }}>
+        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'flex-start', sm: 'center' }, mb: 3, gap: 2 }}>
           <Typography variant="h4">
             Instructor Dashboard
           </Typography>
@@ -83,15 +83,15 @@ const InstructorDashboard = () => {
             <Typography variant="h6" sx={{ mb: 2 }}>
               My Courses
             </Typography>
-            <Grid container spacing={3}>
+            <Grid container spacing={2}>
               {courses.map((course) => (
-                <Grid item xs={12} md={6} lg={4} key={course._id}>
+                <Grid item xs={12} sm={6} md={4} key={course._id}>
                   <Card>
                     <CardContent>
-                      <Typography variant="h6" gutterBottom>
+                      <Typography variant="h6" gutterBottom noWrap>
                         {course.title}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary" paragraph>
+                      <Typography variant="body2" color="text.secondary" paragraph sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
                         {course.description}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
@@ -101,7 +101,7 @@ const InstructorDashboard = () => {
                         Status: {course.isPublished ? 'Published' : 'Draft'}
                       </Typography>
                     </CardContent>
-                    <CardActions>
+                    <CardActions sx={{ flexWrap: 'wrap', gap: 1 }}>
                       <Button
                         component={RouterLink}
                         to={`/instructor/courses/${course._id}`}

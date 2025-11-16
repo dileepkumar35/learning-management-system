@@ -69,4 +69,21 @@ export const quizzesAPI = {
   delete: (quizId) => api.delete(`/quizzes/${quizId}`),
 };
 
+// Certificates API
+export const certificatesAPI = {
+  issue: (courseId) => api.post('/certificates/issue', { courseId }),
+  getMyCertificates: () => api.get('/certificates/my-certificates'),
+  getById: (certificateId) => api.get(`/certificates/${certificateId}`),
+  verify: (verificationCode) => api.post('/certificates/verify', { verificationCode }),
+  checkEligibility: (courseId) => api.get(`/certificates/check/${courseId}`),
+};
+
+// Instructor API
+export const instructorAPI = {
+  getMyCourses: () => api.get('/instructor/my-courses'),
+  getDashboardStats: () => api.get('/instructor/dashboard/stats'),
+  getEnrolledStudents: (courseId) => api.get(`/instructor/courses/${courseId}/students`),
+  getStudentProgress: (courseId, studentId) => api.get(`/instructor/courses/${courseId}/students/${studentId}/progress`),
+};
+
 export default api;

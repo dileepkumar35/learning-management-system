@@ -1,15 +1,4 @@
-#!/usr/bin/env node
-/*
-  Seed script for the LMS backend using @faker-js/faker
 
-  Usage:
-    # Use .env in backend/ to pick up MONGODB_URI; do NOT run against production DB.
-    # Optionally drop the DB first: DROP_DATABASE=true npm run seed
-    npm run seed
-
-  The script will create instructors, students, courses, modules, lessons, quizzes,
-  enrollments, progress and quiz attempts.
-*/
 
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
@@ -44,34 +33,6 @@ async function clearDatabaseIfRequested() {
     await mongoose.connection.dropDatabase();
     console.log('Database dropped.');
   }
-}
-
-async function createUsers(numInstructors = 3, numStudents = 20) {
-  const instructors = [];
-  for (let i = 0; i < numInstructors; i++) {
-    const u = new User({
-      name: faker.person.fullName(),
-      email: faker.internet.email().toLowerCase(),
-      password: 'password123',
-      role: 'instructor'
-    });
-    instructors.push(u.save());
-  }
-
-  const students = [];
-  for (let i = 0; i < numStudents; i++) {
-    const s = new User({
-      name: faker.person.fullName(),
-      email: faker.internet.email().toLowerCase(),
-      password: 'password123',
-      role: 'student'
-    });
-    students.push(s.save());
-  }
-
-  const createdInstructors = await Promise.all(instructors);
-  const createdStudents = await Promise.all(students);
-  return { instructors: createdInstructors, students: createdStudents };
 }
 
 async function createCourseStructure(instructors, opts = {}) {
@@ -235,9 +196,14 @@ async function run() {
     console.log('Connected.');
     await clearDatabaseIfRequested();
 
-    console.log('Creating users...');
-    const { instructors, students } = await createUsers(3, 30);
-    console.log(`Created ${instructors.length} instructors and ${students.length} students.`);
+    console.log('Fetching instructors and students from database...');
+    const instructors = await User.find({ role: 'instructor' }).limit(3);
+    const students = await User.find({ role: 'student' }).limit(30);
+    console.log(`Found ${instructors.length} instructors and ${students.length} students.`);
+    if (instructors.length === 0 || students.length === 0) {
+      console.error('ERROR: No instructors or students found. Please create users first.');
+      process.exit(1);
+    }
 
     console.log('Creating courses/modules/lessons/quizzes...');
     const courses = await createCourseStructure(instructors, { coursesPerInstructor: 2 });
@@ -254,7 +220,6 @@ async function run() {
 
     // Show counts
     const counts = await Promise.all([
-      User.countDocuments(),
       Course.countDocuments(),
       Module.countDocuments(),
       Lesson.countDocuments(),
@@ -264,7 +229,7 @@ async function run() {
       QuizAttempt.countDocuments()
     ]);
     console.log('Counts:');
-    console.log(`Users: ${counts[0]}, Courses: ${counts[1]}, Modules: ${counts[2]}, Lessons: ${counts[3]}, Quizzes: ${counts[4]}, Enrollments: ${counts[5]}, Progress: ${counts[6]}, QuizAttempts: ${counts[7]}`);
+    console.log(`Courses: ${counts[0]}, Modules: ${counts[1]}, Lessons: ${counts[2]}, Quizzes: ${counts[3]}, Enrollments: ${counts[4]}, Progress: ${counts[5]}, QuizAttempts: ${counts[6]}`);
 
   } catch (err) {
     console.error('Seeding failed:', err);

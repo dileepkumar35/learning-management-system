@@ -11,6 +11,13 @@ import InstructorDashboard from './pages/InstructorDashboard';
 import CoursesList from './pages/CoursesList';
 import CourseDetail from './pages/CourseDetail';
 import LessonViewer from './pages/LessonViewer';
+import Progress from './pages/Progress';
+import Certificates from './pages/Certificates';
+import QuizManagement from './pages/QuizManagement';
+import InstructorCourses from './pages/InstructorCourses';
+import EnrolledStudents from './pages/EnrolledStudents';
+import StudentProgressDetail from './pages/StudentProgressDetail';
+import CourseManagement from './pages/CourseManagement';
 
 const theme = createTheme({
   palette: {
@@ -40,25 +47,25 @@ const theme = createTheme({
 
 const PrivateRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
-  
+
   if (loading) {
     return <div>Loading...</div>;
   }
-  
+
   return isAuthenticated ? children : <Navigate to="/login" />;
 };
 
 const Dashboard = () => {
   const { isInstructor, isStudent } = useAuth();
-  
+
   if (isInstructor) {
     return <InstructorDashboard />;
   }
-  
+
   if (isStudent) {
     return <StudentDashboard />;
   }
-  
+
   return <Navigate to="/courses" />;
 };
 
@@ -108,6 +115,62 @@ function App() {
                   element={
                     <PrivateRoute>
                       <InstructorDashboard />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/progress"
+                  element={
+                    <PrivateRoute>
+                      <Progress />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/certificates"
+                  element={
+                    <PrivateRoute>
+                      <Certificates />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/instructor/courses/:courseId/quizzes"
+                  element={
+                    <PrivateRoute>
+                      <QuizManagement />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/instructor/courses"
+                  element={
+                    <PrivateRoute>
+                      <InstructorCourses />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/instructor/courses/:courseId/students"
+                  element={
+                    <PrivateRoute>
+                      <EnrolledStudents />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/instructor/courses/:courseId/students/:studentId"
+                  element={
+                    <PrivateRoute>
+                      <StudentProgressDetail />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/instructor/courses/:courseId/manage"
+                  element={
+                    <PrivateRoute>
+                      <CourseManagement />
                     </PrivateRoute>
                   }
                 />

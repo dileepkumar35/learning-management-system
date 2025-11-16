@@ -18,6 +18,8 @@ app.use('/api/courses', require('./routes/courses'));
 app.use('/api/enrollments', require('./routes/enrollments'));
 app.use('/api/progress', require('./routes/progress'));
 app.use('/api/quizzes', require('./routes/quizzes'));
+app.use('/api/certificates', require('./routes/certificates'));
+app.use('/api/instructor', require('./routes/instructor'));
 
 // Health check
 app.get('/health', (req, res) => {

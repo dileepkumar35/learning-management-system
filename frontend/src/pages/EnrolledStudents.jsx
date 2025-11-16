@@ -34,9 +34,14 @@ import { styled } from '@mui/material/styles';
 import { instructorAPI } from '../services/api';
 
 const StyledCard = styled(Card)(({ theme }) => ({
-  background: 'linear-gradient(135deg, #232536 0%, #2d2f42 100%)',
-  border: '1px solid rgba(255, 218, 27, 0.1)',
+  borderRadius: 12,
+  height: '100%',
+  boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
   transition: 'all 0.3s ease',
+  '&:hover': {
+    transform: 'translateY(-2px)',
+    boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+  },
 }));
 
 const StyledTableContainer = styled(TableContainer)(({ theme }) => ({

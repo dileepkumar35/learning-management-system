@@ -27,7 +27,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
   transition: 'transform 0.2s ease, box-shadow 0.2s ease',
   '&:hover': {
     transform: 'translateY(-4px)',
-    boxShadow: '0 6px 20px rgba(0,0,0,0.15)',
+    boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
   },
 }));
 
@@ -115,7 +115,7 @@ const CoursesList = () => {
               const totalLessons = course.modules?.reduce((sum, m) => sum + (m.lessons?.length || 0), 0) || 0;
               
               return (
-                <Grid item xs={12} sm={6} md={4} key={course._id}>
+                <Grid item xs={12} sm={6} md={6} key={course._id}>
                   <StyledCard>
                     <CardContent sx={{ flexGrow: 1 }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>

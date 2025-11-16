@@ -37,12 +37,17 @@ import HistoryIcon from '@mui/icons-material/History';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import ReactPlayer from 'react-player';
-import Navbar from '../components/Navbar';
 import { coursesAPI, progressAPI, quizzesAPI } from '../services/api';
 
 const StyledCard = styled(Card)(({ theme }) => ({
   borderRadius: 12,
+  height: '100%',
+  padding: theme.spacing(3),
   boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+  transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+  '&:hover': {
+    boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+  },
 }));
 
 const MarkdownContent = styled(Box)(({ theme }) => ({
@@ -143,6 +148,8 @@ const LessonViewer = () => {
 
   const loadLesson = async () => {
     try {
+      setError(''); // Clear any previous errors
+      setLoading(true);
       const response = await coursesAPI.getLesson(id);
       setLesson(response.data);
       
@@ -160,6 +167,7 @@ const LessonViewer = () => {
       }
     } catch (err) {
       setError('Failed to load lesson');
+      setLesson(null);
       console.error(err);
     } finally {
       setLoading(false);
@@ -241,33 +249,26 @@ const LessonViewer = () => {
 
   if (loading) {
     return (
-      <Box>
-        <Navbar />
-        <Container maxWidth="lg">
-          <Box sx={{ py: { xs: 2, sm: 4 } }}>
-            <LinearProgress />
-          </Box>
-        </Container>
-      </Box>
+      <Container maxWidth="lg">
+        <Box sx={{ py: { xs: 2, sm: 4 } }}>
+          <LinearProgress />
+        </Box>
+      </Container>
     );
   }
 
   if (error && !lesson) {
     return (
-      <Box>
-        <Navbar />
-        <Container maxWidth="lg">
-          <Alert severity="error" sx={{ mt: 4 }}>
-            {error}
-          </Alert>
-        </Container>
-      </Box>
+      <Container maxWidth="lg">
+        <Alert severity="error" sx={{ mt: 4 }}>
+          {error}
+        </Alert>
+      </Container>
     );
   }
 
   return (
     <Box sx={{ minHeight: '100vh', backgroundColor: '#f9fafb' }}>
-      <Navbar />
       <Container maxWidth="lg">
         <Box sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1, sm: 2 } }}>
           <Button
@@ -284,7 +285,7 @@ const LessonViewer = () => {
             Back to Course
           </Button>
 
-          {error && (
+          {error && !lesson && (
             <Alert severity="error" sx={{ mb: 3, borderRadius: 2 }}>
               {error}
             </Alert>

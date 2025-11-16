@@ -37,11 +37,13 @@ import { progressAPI, enrollmentsAPI } from '../services/api';
 
 const StyledCard = styled(Card)(({ theme }) => ({
   borderRadius: 12,
+  height: '100%',
+  padding: theme.spacing(3),
   boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
   transition: 'transform 0.2s ease, box-shadow 0.2s ease',
   '&:hover': {
     transform: 'translateY(-4px)',
-    boxShadow: '0 6px 20px rgba(0,0,0,0.15)',
+    boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
   },
 }));
 
@@ -55,6 +57,12 @@ const StatCard = styled(Paper)(({ theme }) => ({
   background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
   color: '#fff',
   boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+  minHeight: '160px',
+  height: '100%',
+  justifyContent: 'center',
+  width: '100%',
+  maxWidth: '200px',
+  margin: '0 auto',
 }));
 
 const Progress = () => {
@@ -173,7 +181,7 @@ const Progress = () => {
 
         {/* Statistics Cards */}
         <Grid container spacing={3} sx={{ mb: 4 }}>
-          <Grid item xs={6} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={3}>
             <StatCard sx={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
               <Assignment sx={{ fontSize: 48, mb: 1 }} />
               <Typography variant="h3" sx={{ fontWeight: 600, mb: 0.5 }}>
@@ -183,7 +191,7 @@ const Progress = () => {
             </StatCard>
           </Grid>
 
-          <Grid item xs={6} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={3}>
             <StatCard sx={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)' }}>
               <CheckCircle sx={{ fontSize: 48, mb: 1 }} />
               <Typography variant="h3" sx={{ fontWeight: 600, mb: 0.5 }}>
@@ -193,7 +201,7 @@ const Progress = () => {
             </StatCard>
           </Grid>
 
-          <Grid item xs={6} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={3}>
             <StatCard sx={{ background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)' }}>
               <TrendingUp sx={{ fontSize: 48, mb: 1 }} />
               <Typography variant="h3" sx={{ fontWeight: 600, mb: 0.5 }}>
@@ -203,7 +211,7 @@ const Progress = () => {
             </StatCard>
           </Grid>
 
-          <Grid item xs={6} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={3}>
             <StatCard sx={{ background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)' }}>
               <EmojiEvents sx={{ fontSize: 48, mb: 1 }} />
               <Typography variant="h3" sx={{ fontWeight: 600, mb: 0.5 }}>

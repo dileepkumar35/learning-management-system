@@ -3,7 +3,6 @@
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 const mongoose = require('mongoose');
-const { faker } = require('@faker-js/faker');
 
 const User = require('../src/models/User');
 const Course = require('../src/models/Course');
@@ -13,6 +12,63 @@ const Quiz = require('../src/models/Quiz');
 const Enrollment = require('../src/models/Enrollment');
 const Progress = require('../src/models/Progress');
 const QuizAttempt = require('../src/models/QuizAttempt');
+
+// Dummy data JSON
+const COURSE_DATA = {
+  titles: [
+    'Introduction to Web Development',
+    'Advanced JavaScript Programming',
+    'React and Modern Frontend',
+    'Node.js Backend Development',
+    'Python for Data Science',
+    'Machine Learning Fundamentals',
+    'Database Design and SQL',
+    'Mobile App Development',
+    'DevOps and Cloud Computing',
+    'Cybersecurity Essentials'
+  ],
+  descriptions: [
+    'Learn the fundamentals of building modern web applications from scratch. This comprehensive course covers HTML, CSS, and JavaScript basics.',
+    'Master advanced programming concepts and build scalable applications. Dive deep into asynchronous programming, design patterns, and best practices.',
+    'Explore cutting-edge technologies and industry best practices. Build real-world projects and learn from experienced developers.',
+    'Build robust server-side applications with modern frameworks. Learn RESTful API design, authentication, and database integration.',
+    'Gain practical skills in analysis and visualization. Work with real datasets and learn industry-standard tools and libraries.',
+    'Understand core concepts and algorithms in AI. Implement machine learning models and understand their practical applications.'
+  ],
+  moduleTopics: [
+    ['Getting Started', 'Core Concepts', 'Advanced Topics', 'Best Practices'],
+    ['Fundamentals', 'Intermediate Concepts', 'Advanced Techniques', 'Real-world Applications'],
+    ['Introduction', 'Building Blocks', 'Advanced Features', 'Project Development'],
+    ['Basics', 'Essential Skills', 'Professional Techniques', 'Industry Standards']
+  ],
+  lessonTitles: [
+    ['Introduction to the Topic', 'Understanding the Basics', 'Core Principles', 'Practical Examples'],
+    ['Getting Started', 'Working with Components', 'Advanced Patterns', 'Performance Optimization'],
+    ['Setup and Configuration', 'First Steps', 'Deep Dive', 'Best Practices and Tips'],
+    ['Overview', 'Hands-on Practice', 'Common Pitfalls', 'Real-world Scenarios']
+  ],
+  lessonContent: [
+    'In this lesson, we will explore the fundamental concepts that form the foundation of this topic. You will learn key principles and see practical examples that demonstrate real-world applications. By the end of this lesson, you will have a solid understanding of the core concepts.\n\nWe will cover important techniques and methodologies that are widely used in the industry. Through hands-on exercises, you will gain practical experience and build confidence in applying these concepts.',
+    'This comprehensive lesson covers essential skills and knowledge you need to master. We will work through practical examples and discuss best practices used by professionals in the field.\n\nYou will learn how to apply these concepts effectively and avoid common mistakes. The lesson includes detailed explanations and step-by-step guidance to ensure thorough understanding.',
+    'Building on previous knowledge, this lesson introduces advanced concepts and techniques. You will learn how to solve complex problems and implement sophisticated solutions.\n\nWe will explore industry-standard approaches and modern methodologies. Through practical exercises, you will develop the skills needed to handle real-world challenges confidently.'
+  ],
+  quizQuestions: [
+    'What is the primary purpose of this concept?',
+    'Which of the following best describes the key principle?',
+    'How would you implement this feature correctly?',
+    'What is the recommended approach for solving this problem?',
+    'Which statement accurately explains this functionality?',
+    'What are the benefits of using this technique?'
+  ],
+  quizOptions: [
+    ['To improve performance', 'To enhance security', 'To simplify development', 'To reduce costs'],
+    ['Modular design', 'Rapid execution', 'Complex architecture', 'Simple implementation'],
+    ['Using global variables', 'Following best practices', 'Avoiding documentation', 'Skipping testing'],
+    ['Trial and error', 'Systematic approach', 'Random selection', 'Ignoring requirements'],
+    ['It increases complexity', 'It improves maintainability', 'It slows performance', 'It limits functionality'],
+    ['Faster development', 'Better code quality', 'Reduced errors', 'All of the above']
+  ]
+};
 
 async function connect() {
   const uri = process.env.MONGODB_URI;
@@ -27,6 +83,19 @@ function randInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function getRandomItem(array) {
+  return array[Math.floor(Math.random() * array.length)];
+}
+
+function shuffleArray(array) {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
 async function clearDatabaseIfRequested() {
   if (String(process.env.DROP_DATABASE || '').toLowerCase() === 'true') {
     console.log('DROP_DATABASE=true -> Dropping database...');
@@ -37,24 +106,33 @@ async function clearDatabaseIfRequested() {
 
 async function createCourseStructure(instructors, opts = {}) {
   const courses = [];
+  let courseIndex = 0;
+  
   for (const instructor of instructors) {
     const numCourses = opts.coursesPerInstructor ?? 2;
     for (let c = 0; c < numCourses; c++) {
+      const courseTitle = COURSE_DATA.titles[courseIndex % COURSE_DATA.titles.length];
+      const courseDesc = COURSE_DATA.descriptions[courseIndex % COURSE_DATA.descriptions.length];
+      courseIndex++;
+      
       const course = await Course.create({
-        title: faker.lorem.words(randInt(2, 5)),
-        description: faker.lorem.paragraphs(1),
+        title: courseTitle,
+        description: courseDesc,
         instructor: instructor._id,
-        thumbnail: faker.image.urlPicsumPhotos({ width: 640, height: 360 }),
+        thumbnail: `https://picsum.photos/seed/${courseIndex}/640/360`,
         isPublished: true
       });
 
       // Modules
       const modules = [];
       const numModules = randInt(2, 4);
+      const moduleTopics = getRandomItem(COURSE_DATA.moduleTopics);
+      
       for (let m = 0; m < numModules; m++) {
+        const moduleTopic = moduleTopics[m % moduleTopics.length];
         const module = await Module.create({
-          title: `Module ${m + 1}: ${faker.lorem.words(3)}`,
-          description: faker.lorem.sentences(1),
+          title: `Module ${m + 1}: ${moduleTopic}`,
+          description: `This module covers ${moduleTopic.toLowerCase()} and related concepts. You will gain hands-on experience through practical examples.`,
           course: course._id,
           order: m
         });
@@ -63,12 +141,17 @@ async function createCourseStructure(instructors, opts = {}) {
         // Lessons
         const lessons = [];
         const numLessons = randInt(2, 4);
+        const lessonTitles = getRandomItem(COURSE_DATA.lessonTitles);
+        
         for (let l = 0; l < numLessons; l++) {
           const hasQuiz = Math.random() < 0.5; // half of lessons have quizzes
+          const lessonTitle = lessonTitles[l % lessonTitles.length];
+          const lessonContent = getRandomItem(COURSE_DATA.lessonContent);
+          
           const lesson = await Lesson.create({
-            title: `Lesson ${l + 1}: ${faker.lorem.words(4)}`,
-            description: faker.lorem.sentences(1),
-            content: faker.lorem.paragraphs(2),
+            title: `Lesson ${l + 1}: ${lessonTitle}`,
+            description: `Learn about ${lessonTitle.toLowerCase()} in this comprehensive lesson.`,
+            content: lessonContent,
             videoUrl: '',
             fileReference: '',
             module: module._id,
@@ -79,10 +162,12 @@ async function createCourseStructure(instructors, opts = {}) {
           if (hasQuiz) {
             const questions = [];
             const qCount = randInt(3, 6);
+            
             for (let qi = 0; qi < qCount; qi++) {
-              const options = [faker.lorem.sentence(), faker.lorem.sentence(), faker.lorem.sentence(), faker.lorem.sentence()];
+              const question = COURSE_DATA.quizQuestions[qi % COURSE_DATA.quizQuestions.length];
+              const options = COURSE_DATA.quizOptions[qi % COURSE_DATA.quizOptions.length];
               const correctAnswer = randInt(0, options.length - 1);
-              questions.push({ question: faker.lorem.sentence(), options, correctAnswer });
+              questions.push({ question, options, correctAnswer });
             }
 
             const quiz = await Quiz.create({
@@ -116,7 +201,7 @@ async function enrollStudentsToCourses(students, courses) {
   for (const student of students) {
     // enroll each student in 1..min(3,courses.length) random courses
     const enrollCount = Math.max(1, Math.min(3, randInt(1, Math.min(3, courses.length))));
-    const shuffled = faker.helpers.shuffle(courses);
+    const shuffled = shuffleArray(courses);
     for (let i = 0; i < enrollCount; i++) {
       const course = shuffled[i];
       enrollPromises.push(

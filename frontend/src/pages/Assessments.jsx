@@ -32,16 +32,17 @@ import {
   NavigateBefore,
   Timer,
 } from '@mui/icons-material';
-import Navbar from '../components/Navbar';
 import { enrollmentsAPI, quizzesAPI, progressAPI } from '../services/api';
 
 const StyledCard = styled(Card)(({ theme }) => ({
   borderRadius: 12,
+  height: '100%',
+  padding: theme.spacing(3),
   boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
   transition: 'transform 0.2s ease, box-shadow 0.2s ease',
   '&:hover': {
     transform: 'translateY(-4px)',
-    boxShadow: '0 6px 20px rgba(0,0,0,0.15)',
+    boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
   },
 }));
 
@@ -150,11 +151,8 @@ const Assessments = () => {
 
   if (loading) {
     return (
-      <Box>
-        <Navbar />
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
-          <LinearProgress sx={{ width: '50%' }} />
-        </Box>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+        <LinearProgress sx={{ width: '50%' }} />
       </Box>
     );
   }
@@ -166,7 +164,6 @@ const Assessments = () => {
 
     return (
       <Box sx={{ minHeight: '100vh', backgroundColor: '#f9fafb' }}>
-        <Navbar />
         <Container maxWidth="md" sx={{ py: 4 }}>
           <Paper sx={{ p: 3, mb: 3, backgroundColor: '#232536', color: '#fff' }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
@@ -347,8 +344,6 @@ const Assessments = () => {
   // Main Assessments List
   return (
     <Box sx={{ minHeight: '100vh', backgroundColor: '#f9fafb' }}>
-      <Navbar />
-
       <Container maxWidth="lg" sx={{ py: 4 }}>
         <Box sx={{ mb: 4 }}>
           <Typography variant="h4" sx={{ fontWeight: 600, color: '#232536', mb: 1 }}>

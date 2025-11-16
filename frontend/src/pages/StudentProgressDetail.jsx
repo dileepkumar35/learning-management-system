@@ -45,6 +45,13 @@ const StatCard = styled(Card)(({ bgcolor }) => ({
   background: bgcolor || 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
   border: 'none',
   height: '100%',
+  minHeight: '180px',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  width: '100%',
+  maxWidth: '220px',
+  margin: '0 auto',
 }));
 
 const ModuleCard = styled(Accordion)(({ theme }) => ({
@@ -184,7 +191,7 @@ const StudentProgressDetail = () => {
           <Grid item xs={12} sm={6} md={3}>
             <StatCard bgcolor="linear-gradient(135deg, #10b981 0%, #059669 100%)">
               <CardContent>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center' }}>
                   <TrendingUpIcon sx={{ fontSize: 40, color: '#fff', opacity: 0.8 }} />
                   <Box>
                     <Typography variant="h3" sx={{ color: '#fff', fontWeight: 700 }}>
@@ -202,7 +209,7 @@ const StudentProgressDetail = () => {
           <Grid item xs={12} sm={6} md={3}>
             <StatCard bgcolor="linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)">
               <CardContent>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center' }}>
                   <CheckCircleIcon sx={{ fontSize: 40, color: '#fff', opacity: 0.8 }} />
                   <Box>
                     <Typography variant="h3" sx={{ color: '#fff', fontWeight: 700 }}>
@@ -220,7 +227,7 @@ const StudentProgressDetail = () => {
           <Grid item xs={12} sm={6} md={3}>
             <StatCard bgcolor="linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)">
               <CardContent>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center' }}>
                   <AssignmentIcon sx={{ fontSize: 40, color: '#fff', opacity: 0.8 }} />
                   <Box>
                     <Typography variant="h3" sx={{ color: '#fff', fontWeight: 700 }}>
@@ -238,7 +245,7 @@ const StudentProgressDetail = () => {
           <Grid item xs={12} sm={6} md={3}>
             <StatCard bgcolor="linear-gradient(135deg, #f59e0b 0%, #d97706 100%)">
               <CardContent>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center' }}>
                   <SchoolIcon sx={{ fontSize: 40, color: '#fff', opacity: 0.8 }} />
                   <Box>
                     <Typography variant="h3" sx={{ color: '#fff', fontWeight: 700 }}>

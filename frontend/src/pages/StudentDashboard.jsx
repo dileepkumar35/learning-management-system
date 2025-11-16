@@ -45,6 +45,15 @@ const StatCard = styled(Paper)(({ theme }) => ({
   background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
   color: '#fff',
   boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  minHeight: '160px',
+  height: '100%',
+  width: '100%',
+  maxWidth: '200px',
+  margin: '0 auto',
 }));
 
 const StudentDashboard = () => {
@@ -141,7 +150,7 @@ const StudentDashboard = () => {
 
         {/* Statistics Cards */}
         <Grid container spacing={3} sx={{ mb: 4 }}>
-          <Grid item xs={6} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={3}>
             <StatCard sx={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
               <Assignment sx={{ fontSize: 40, mb: 1 }} />
               <Typography variant="h4" sx={{ fontWeight: 600 }}>
@@ -150,7 +159,7 @@ const StudentDashboard = () => {
               <Typography variant="body2">Enrolled</Typography>
             </StatCard>
           </Grid>
-          <Grid item xs={6} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={3}>
             <StatCard sx={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)' }}>
               <CheckCircle sx={{ fontSize: 40, mb: 1 }} />
               <Typography variant="h4" sx={{ fontWeight: 600 }}>
@@ -159,7 +168,7 @@ const StudentDashboard = () => {
               <Typography variant="body2">Completed</Typography>
             </StatCard>
           </Grid>
-          <Grid item xs={6} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={3}>
             <StatCard sx={{ background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)' }}>
               <TrendingUp sx={{ fontSize: 40, mb: 1 }} />
               <Typography variant="h4" sx={{ fontWeight: 600 }}>
@@ -168,7 +177,7 @@ const StudentDashboard = () => {
               <Typography variant="body2">In Progress</Typography>
             </StatCard>
           </Grid>
-          <Grid item xs={6} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={3}>
             <StatCard sx={{ background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)' }}>
               <EmojiEvents sx={{ fontSize: 40, mb: 1 }} />
               <Typography variant="h4" sx={{ fontWeight: 600 }}>
@@ -195,7 +204,7 @@ const StudentDashboard = () => {
                 {dashboard?.courses.map((course) => {
                   const eligibility = certificateEligibility[course.courseId];
                   return (
-                    <Grid item xs={12} sm={6} md={6} lg={4} key={course.courseId}>
+                    <Grid item xs={12} sm={6} md={4} key={course.courseId}>
                       <StyledCard>
                         <CardContent sx={{ flexGrow: 1 }}>
                           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 2 }}>

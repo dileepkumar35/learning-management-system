@@ -27,22 +27,34 @@ import { instructorAPI } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
 
 const StyledCard = styled(Card)(({ theme }) => ({
-  background: '#2c3e50',
-  border: 'none',
   borderRadius: 12,
-  transition: 'all 0.3s ease',
+  boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
-  boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+  transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+  '&:hover': {
+    transform: 'translateY(-4px)',
+    boxShadow: '0 6px 20px rgba(0,0,0,0.15)',
+  },
 }));
 
-const StatCard = styled(Card)(({ bgcolor }) => ({
-  background: bgcolor || 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
-  border: 'none',
+const StatCard = styled(Card)(({ theme }) => ({
+  padding: theme.spacing(3),
   borderRadius: 12,
-  height: '100%',
+  textAlign: 'center',
+  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+  color: '#fff',
   boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  minHeight: '160px',
+  height: '100%',
+  width: '100%',
+  maxWidth: '200px',
+  margin: '0 auto',
 }));
 
 const InstructorDashboard = () => {
@@ -71,9 +83,9 @@ const InstructorDashboard = () => {
   if (loading) {
     return (
       <Box sx={{ minHeight: '100vh', backgroundColor: '#f9fafb' }}>
-        <Container maxWidth="xl">
-          <Box sx={{ py: 4, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
-            <CircularProgress sx={{ color: '#ffda1b' }} />
+        <Container maxWidth="lg">
+          <Box sx={{ py: 4 }}>
+            <LinearProgress />
           </Box>
         </Container>
       </Box>
@@ -82,253 +94,207 @@ const InstructorDashboard = () => {
 
   return (
     <Box sx={{ minHeight: '100vh', backgroundColor: '#f9fafb' }}>
-      <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Container maxWidth="lg" sx={{ py: 4 }}>
         <Box sx={{ mb: 4 }}>
-          <Typography
-            variant="h4"
-            sx={{
-              fontWeight: 700,
-              color: '#ffda1b',
-              mb: 1,
-            }}
-          >
+          <Typography variant="h4" sx={{ fontWeight: 700, color: '#232536', mb: 1 }}>
             Instructor Dashboard
           </Typography>
-          <Typography variant="body1" sx={{ color: '#94a3b8' }}>
-            Welcome back, Instructor!
+          <Typography variant="body1" sx={{ color: '#64748b' }}>
+            Manage your courses and track student progress
           </Typography>
         </Box>
 
-      {error && (
-        <Alert 
-          severity="error" 
-          sx={{ 
-            mb: 3,
-            borderRadius: 2,
-          }}
-        >
-          {error}
-        </Alert>
-      )}
+        {error && (
+          <Alert severity="error" sx={{ mb: 3, borderRadius: 2 }}>
+            {error}
+          </Alert>
+        )}
 
-      {!loading && stats ? (
-        <>
-          {/* Stats Cards */}
-          <Grid container spacing={3} sx={{ mb: 4 }}>
-            <Grid item xs={6} sm={6} md={3}>
-              <StatCard bgcolor="linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)">
-                <CardContent sx={{ textAlign: 'center', py: 3 }}>
-                  <Avatar sx={{ bgcolor: 'rgba(255, 255, 255, 0.2)', width: 56, height: 56, mx: 'auto', mb: 2 }}>
-                    <SchoolIcon sx={{ fontSize: 28 }} />
-                  </Avatar>
-                  <Typography variant="h3" sx={{ color: '#fff', fontWeight: 700, mb: 0.5 }}>
+        {!loading && stats ? (
+          <>
+            {/* Statistics Cards */}
+            <Grid container spacing={3} sx={{ mb: 4 }}>
+              <Grid item xs={12} sm={6} md={3}>
+                <StatCard sx={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+                  <SchoolIcon sx={{ fontSize: 40, mb: 1 }} />
+                  <Typography variant="h4" sx={{ fontWeight: 600 }}>
                     {stats.totalCourses}
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)' }}>
-                    Total Courses
-                  </Typography>
-                </CardContent>
-              </StatCard>
-            </Grid>
+                  <Typography variant="body2">Total Courses</Typography>
+                </StatCard>
+              </Grid>
 
-            <Grid item xs={6} sm={6} md={3}>
-              <StatCard bgcolor="linear-gradient(135deg, #10b981 0%, #059669 100%)">
-                <CardContent sx={{ textAlign: 'center', py: 3 }}>
-                  <Avatar sx={{ bgcolor: 'rgba(255, 255, 255, 0.2)', width: 56, height: 56, mx: 'auto', mb: 2 }}>
-                    <PeopleIcon sx={{ fontSize: 28 }} />
-                  </Avatar>
-                  <Typography variant="h3" sx={{ color: '#fff', fontWeight: 700, mb: 0.5 }}>
+              <Grid item xs={12} sm={6} md={3}>
+                <StatCard sx={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)' }}>
+                  <PeopleIcon sx={{ fontSize: 40, mb: 1 }} />
+                  <Typography variant="h4" sx={{ fontWeight: 600 }}>
                     {stats.totalEnrollments}
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)' }}>
-                    Total Students
-                  </Typography>
-                </CardContent>
-              </StatCard>
-            </Grid>
+                  <Typography variant="body2">Total Students</Typography>
+                </StatCard>
+              </Grid>
 
-            <Grid item xs={6} sm={6} md={3}>
-              <StatCard bgcolor="linear-gradient(135deg, #f59e0b 0%, #d97706 100%)">
-                <CardContent sx={{ textAlign: 'center', py: 3 }}>
-                  <Avatar sx={{ bgcolor: 'rgba(255, 255, 255, 0.2)', width: 56, height: 56, mx: 'auto', mb: 2 }}>
-                    <TrendingUpIcon sx={{ fontSize: 28 }} />
-                  </Avatar>
-                  <Typography variant="h3" sx={{ color: '#fff', fontWeight: 700, mb: 0.5 }}>
+              <Grid item xs={12} sm={6} md={3}>
+                <StatCard sx={{ background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)' }}>
+                  <TrendingUpIcon sx={{ fontSize: 40, mb: 1 }} />
+                  <Typography variant="h4" sx={{ fontWeight: 600 }}>
                     {stats.activeEnrollments}
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)' }}>
-                    Active Students
-                  </Typography>
-                </CardContent>
-              </StatCard>
-            </Grid>
+                  <Typography variant="body2">Active Students</Typography>
+                </StatCard>
+              </Grid>
 
-            <Grid item xs={6} sm={6} md={3}>
-              <StatCard bgcolor="linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)">
-                <CardContent sx={{ textAlign: 'center', py: 3 }}>
-                  <Avatar sx={{ bgcolor: 'rgba(255, 255, 255, 0.2)', width: 56, height: 56, mx: 'auto', mb: 2 }}>
-                    <AssignmentIcon sx={{ fontSize: 28 }} />
-                  </Avatar>
-                  <Typography variant="h3" sx={{ color: '#fff', fontWeight: 700, mb: 0.5 }}>
+              <Grid item xs={12} sm={6} md={3}>
+                <StatCard sx={{ background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)' }}>
+                  <AssignmentIcon sx={{ fontSize: 40, mb: 1 }} />
+                  <Typography variant="h4" sx={{ fontWeight: 600 }}>
                     {stats.totalLessons}
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)' }}>
-                    Total Lessons
-                  </Typography>
-                </CardContent>
-              </StatCard>
-            </Grid>
-          </Grid>
-
-          {/* Quick Actions */}
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <StyledCard>
-                <CardContent sx={{ flexGrow: 1 }}>
-                  <Typography variant="h6" sx={{ color: '#fff', fontWeight: 600, mb: 2 }}>
-                    Course Management
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: '#94a3b8', mb: 3 }}>
-                    Create and manage your courses, modules, and lessons
-                  </Typography>
-                  <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-                    <Chip
-                      label={`${stats.publishedCourses} Published`}
-                      sx={{
-                        background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-                        color: '#fff',
-                      }}
-                    />
-                    <Chip
-                      label={`${stats.totalCourses - stats.publishedCourses} Drafts`}
-                      sx={{
-                        background: 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
-                        color: '#fff',
-                      }}
-                    />
-                    <Chip
-                      label={`${stats.totalQuizzes} Quizzes`}
-                      sx={{
-                        background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
-                        color: '#fff',
-                      }}
-                    />
-                  </Box>
-                </CardContent>
-                <CardActions sx={{ p: 2 }}>
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    startIcon={<SchoolIcon />}
-                    onClick={() => navigate('/instructor/courses')}
-                    sx={{
-                      backgroundColor: '#ffda1b',
-                      color: '#232536',
-                      fontWeight: 600,
-                      textTransform: 'uppercase',
-                      '&:hover': {
-                        backgroundColor: '#ffc107',
-                      },
-                    }}
-                  >
-                    Manage Courses
-                  </Button>
-                </CardActions>
-              </StyledCard>
+                  <Typography variant="body2">Total Lessons</Typography>
+                </StatCard>
+              </Grid>
             </Grid>
 
-            <Grid item xs={12} md={6}>
-              <StyledCard>
-                <CardContent sx={{ flexGrow: 1 }}>
-                  <Typography variant="h6" sx={{ color: '#fff', fontWeight: 600, mb: 2 }}>
-                    Student Engagement
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: '#94a3b8', mb: 3 }}>
-                    Track student progress and engagement across your courses
-                  </Typography>
-                  <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-                    <Chip
-                      label={`${stats.activeEnrollments} Active`}
+            {/* Quick Actions */}
+            <Typography variant="h6" sx={{ mt: 4, mb: 2, fontWeight: 700, color: '#232536' }}>
+              Quick Actions
+            </Typography>
+            <Grid container spacing={3}>
+              <Grid item xs={12} sm={6} md={4}>
+                <StyledCard>
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
+                      Course Management
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                      Create and manage your courses, modules, and lessons
+                    </Typography>
+                    <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 2 }}>
+                      <Chip
+                        label={`${stats.publishedCourses} Published`}
+                        size="small"
+                        sx={{ bgcolor: '#10b981', color: '#fff' }}
+                      />
+                      <Chip
+                        label={`${stats.totalCourses - stats.publishedCourses} Drafts`}
+                        size="small"
+                        sx={{ bgcolor: '#64748b', color: '#fff' }}
+                      />
+                      <Chip
+                        label={`${stats.totalQuizzes} Quizzes`}
+                        size="small"
+                        sx={{ bgcolor: '#8b5cf6', color: '#fff' }}
+                      />
+                    </Box>
+                  </CardContent>
+                  <CardActions sx={{ p: 2, pt: 0 }}>
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      onClick={() => navigate('/instructor/courses')}
                       sx={{
-                        background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-                        color: '#fff',
+                        backgroundColor: '#232536',
+                        '&:hover': {
+                          backgroundColor: '#ffda1b',
+                          color: '#232536',
+                        },
                       }}
-                    />
-                    <Chip
-                      label={`${stats.completedEnrollments} Completed`}
+                    >
+                      Manage Courses
+                    </Button>
+                  </CardActions>
+                </StyledCard>
+              </Grid>
+
+              <Grid item xs={12} sm={6} md={4}>
+                <StyledCard>
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
+                      Student Progress
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                      Track student progress and engagement across your courses
+                    </Typography>
+                    <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 2 }}>
+                      <Chip
+                        label={`${stats.activeEnrollments} Active`}
+                        size="small"
+                        sx={{ bgcolor: '#10b981', color: '#fff' }}
+                      />
+                      <Chip
+                        label={`${stats.completedEnrollments} Completed`}
+                        size="small"
+                        sx={{ bgcolor: '#3b82f6', color: '#fff' }}
+                      />
+                      <Chip
+                        label={`${stats.recentEnrollments} This Week`}
+                        size="small"
+                        sx={{ bgcolor: '#f59e0b', color: '#fff' }}
+                      />
+                    </Box>
+                  </CardContent>
+                  <CardActions sx={{ p: 2, pt: 0 }}>
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      onClick={() => navigate('/instructor/courses')}
                       sx={{
-                        background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
-                        color: '#fff',
+                        backgroundColor: '#232536',
+                        '&:hover': {
+                          backgroundColor: '#ffda1b',
+                          color: '#232536',
+                        },
                       }}
-                    />
-                    <Chip
-                      label={`${stats.recentEnrollments} This Week`}
+                    >
+                      View Students
+                    </Button>
+                  </CardActions>
+                </StyledCard>
+              </Grid>
+
+              <Grid item xs={12} sm={6} md={4}>
+                <StyledCard>
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
+                      Create New Course
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                      Start building a new course with modules and lessons
+                    </Typography>
+                    <Box sx={{ mt: 3 }}>
+                      <SchoolIcon sx={{ fontSize: 48, color: '#cbd5e1' }} />
+                    </Box>
+                  </CardContent>
+                  <CardActions sx={{ p: 2, pt: 0 }}>
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      startIcon={<AddIcon />}
+                      onClick={() => navigate('/instructor/courses')}
                       sx={{
-                        background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-                        color: '#fff',
+                        backgroundColor: '#ffda1b',
+                        color: '#232536',
+                        '&:hover': {
+                          backgroundColor: '#232536',
+                          color: '#fff',
+                        },
                       }}
-                    />
-                  </Box>
-                </CardContent>
-                <CardActions sx={{ p: 2 }}>
-                  <Button
-                    fullWidth
-                    variant="outlined"
-                    startIcon={<PeopleIcon />}
-                    onClick={() => navigate('/instructor/courses')}
-                    sx={{
-                      borderColor: '#ffda1b',
-                      color: '#ffda1b',
-                      fontWeight: 600,
-                      textTransform: 'uppercase',
-                      '&:hover': {
-                        borderColor: '#ffc107',
-                        backgroundColor: 'rgba(255, 218, 27, 0.1)',
-                      },
-                    }}
-                  >
-                    View Students
-                  </Button>
-                </CardActions>
-              </StyledCard>
+                    >
+                      Create Course
+                    </Button>
+                  </CardActions>
+                </StyledCard>
+              </Grid>
             </Grid>
-          </Grid>
-        </>
-      ) : !error && (
-        <Box
-          sx={{
-            textAlign: 'center',
-            py: 8,
-            background: '#fff',
-            borderRadius: 3,
-            border: '1px solid #e5e7eb',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-          }}
-        >
-          <SchoolIcon sx={{ fontSize: 64, color: '#cbd5e1', mb: 2 }} />
-          <Typography variant="h6" sx={{ color: '#64748b', mb: 2 }}>
-            No data available
-          </Typography>
-          <Typography variant="body2" sx={{ color: '#94a3b8', mb: 3 }}>
-            Start by creating your first course
-          </Typography>
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            onClick={() => navigate('/instructor/courses')}
-            sx={{
-              backgroundColor: '#ffda1b',
-              color: '#232536',
-              fontWeight: 600,
-              '&:hover': {
-                backgroundColor: '#ffc107',
-              },
-            }}
-          >
-            Go to Courses
-          </Button>
-        </Box>
-      )}
+          </>
+        ) : !error && (
+          <Alert severity="info" sx={{ mt: 2, borderRadius: 2 }}>
+            No data available yet.{' '}
+            <RouterLink to="/instructor/courses" style={{ color: '#667eea', fontWeight: 600 }}>
+              Create your first course
+            </RouterLink>
+          </Alert>
+        )}
       </Container>
     </Box>
   );

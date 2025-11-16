@@ -33,6 +33,14 @@ const certificateSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true
+  },
+  digitalSignature: {
+    type: String,
+    required: true
+  },
+  verificationToken: {
+    type: String,
+    required: true
   }
 });
 

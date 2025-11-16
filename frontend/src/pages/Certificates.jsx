@@ -27,16 +27,19 @@ import {
   Share,
   CheckCircle,
   Stars,
+  Security,
 } from '@mui/icons-material';
 import { certificatesAPI } from '../services/api';
 
 const StyledCard = styled(Card)(({ theme }) => ({
   borderRadius: 12,
+  height: '100%',
+  padding: theme.spacing(3),
   boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
   transition: 'transform 0.2s ease, box-shadow 0.2s ease',
   '&:hover': {
     transform: 'translateY(-4px)',
-    boxShadow: '0 6px 20px rgba(0,0,0,0.15)',
+    boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
   },
 }));
 
@@ -101,17 +104,49 @@ const Certificates = () => {
     }
   };
 
-  const handleDownloadCertificate = (certificate) => {
-    // This would generate and download a PDF certificate
-    // For now, we'll just show an alert
-    alert(`Certificate download for: ${certificate.course.title}\nCertificate ID: ${certificate.certificateId}`);
+  const handleDownloadCertificate = async (certificate) => {
+    try {
+      const response = await certificatesAPI.downloadPDF(certificate.certificateId);
+      
+      if (!response.ok) {
+        throw new Error('Failed to download certificate');
+      }
+
+      // Get the PDF blob
+      const blob = await response.blob();
+      
+      // Create a download link
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `certificate-${certificate.certificateId}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      
+      // Cleanup
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+      
+      // Show success message
+      alert('Certificate downloaded successfully!');
+    } catch (err) {
+      console.error('Error downloading certificate:', err);
+      alert('Failed to download certificate. Please try again.');
+    }
   };
 
   const handleShareCertificate = (certificate) => {
-    // Copy verification link to clipboard
-    const verificationUrl = `${window.location.origin}/verify/${certificate.certificateId}`;
-    navigator.clipboard.writeText(verificationUrl);
-    alert('Verification link copied to clipboard!');
+    // Create verification link with token for enhanced security
+    const token = certificate.verificationToken || '';
+    const verificationUrl = `${window.location.origin}/verify/${certificate.certificateId}${token ? `?token=${token}` : ''}`;
+    
+    navigator.clipboard.writeText(verificationUrl).then(() => {
+      alert('Verification link copied to clipboard!\n\nAnyone can use this link to verify your certificate.');
+    }).catch((err) => {
+      console.error('Failed to copy:', err);
+      // Fallback: show the link
+      alert(`Verification link:\n${verificationUrl}`);
+    });
   };
 
   const handleViewCertificate = (certificate) => {
@@ -202,16 +237,28 @@ const Certificates = () => {
                         <Typography variant="h6" sx={{ fontWeight: 600 }}>
                           Certificate of Completion
                         </Typography>
-                        <Chip
-                          icon={<Verified />}
-                          label="Verified"
-                          size="small"
-                          sx={{
-                            backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                            color: '#fff',
-                            mt: 0.5,
-                          }}
-                        />
+                        <Box sx={{ display: 'flex', gap: 0.5, mt: 0.5, flexWrap: 'wrap' }}>
+                          <Chip
+                            icon={<Verified />}
+                            label="Verified"
+                            size="small"
+                            sx={{
+                              backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                              color: '#fff',
+                            }}
+                          />
+                          {certificate.digitalSignature && (
+                            <Chip
+                              icon={<Security />}
+                              label="Signed"
+                              size="small"
+                              sx={{
+                                backgroundColor: 'rgba(16, 185, 129, 0.3)',
+                                color: '#fff',
+                              }}
+                            />
+                          )}
+                        </Box>
                       </Box>
                     </Box>
 
@@ -231,6 +278,11 @@ const Certificates = () => {
                       <Typography variant="body2" sx={{ opacity: 0.9 }}>
                         Completed: {new Date(certificate.completionDate).toLocaleDateString()}
                       </Typography>
+                      {certificate.digitalSignature && (
+                        <Typography variant="caption" sx={{ opacity: 0.8, display: 'block', mt: 0.5 }}>
+                          Digital Signature: {certificate.digitalSignature.substring(0, 16)}...
+                        </Typography>
+                      )}
                     </Box>
 
                     {certificate.grade && (
@@ -434,6 +486,14 @@ const Certificates = () => {
                     Verification Code: {selectedCertificate.verificationCode}
                   </Typography>
                   <br />
+                  {selectedCertificate.digitalSignature && (
+                    <>
+                      <Typography variant="caption" color="text.secondary">
+                        Digital Signature: {selectedCertificate.digitalSignature.substring(0, 32)}...
+                      </Typography>
+                      <br />
+                    </>
+                  )}
                   <Typography variant="caption" color="text.secondary">
                     Date of Completion: {new Date(selectedCertificate.completionDate).toLocaleDateString()}
                   </Typography>

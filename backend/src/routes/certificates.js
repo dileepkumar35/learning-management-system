@@ -9,6 +9,7 @@ const Progress = require('../models/Progress');
 const QuizAttempt = require('../models/QuizAttempt');
 const { authenticate } = require('../middleware/auth');
 const crypto = require('crypto');
+const { generateCertificatePDF, generateDigitalSignature, generateVerificationToken } = require('../services/certificatePdfGenerator');
 
 // Generate a unique certificate ID
 const generateCertificateId = () => {
@@ -136,24 +137,45 @@ router.post('/issue', authenticate, async (req, res) => {
     }
 
     // Create certificate
+    const certificateId = generateCertificateId();
+    const verificationCode = generateVerificationCode();
+    
     const certificate = new Certificate({
       student: req.userId,
       course: courseId,
-      certificateId: generateCertificateId(),
-      verificationCode: generateVerificationCode(),
+      certificateId,
+      verificationCode,
       completionDate: completion.completionDate,
-      grade: completion.grade
+      grade: completion.grade,
+      digitalSignature: '',
+      verificationToken: ''
     });
+
+    // Populate for digital signature generation
+    await certificate.populate('student', 'name email');
+    await certificate.populate('course', 'title description');
+
+    // Generate digital signature and token
+    const digitalSignature = generateDigitalSignature({
+      certificateId,
+      studentName: certificate.student.name,
+      courseTitle: certificate.course.title,
+      issuedAt: certificate.issuedAt,
+    });
+
+    const verificationToken = generateVerificationToken({
+      certificateId,
+      verificationCode,
+    });
+
+    certificate.digitalSignature = digitalSignature;
+    certificate.verificationToken = verificationToken;
 
     await certificate.save();
 
     // Update enrollment status to completed
     enrollment.status = 'completed';
     await enrollment.save();
-
-    // Populate certificate data
-    await certificate.populate('student', 'name email');
-    await certificate.populate('course', 'title description');
 
     res.status(201).json({
       message: 'Certificate issued successfully',
@@ -177,6 +199,44 @@ router.get('/my-certificates', authenticate, async (req, res) => {
   } catch (error) {
     console.error('Error fetching certificates:', error);
     res.status(500).json({ error: 'Error fetching certificates' });
+  }
+});
+
+// Download certificate as PDF
+router.get('/download/:certificateId', authenticate, async (req, res) => {
+  try {
+    const certificate = await Certificate.findOne({
+      certificateId: req.params.certificateId,
+      student: req.userId
+    })
+      .populate('student', 'name email')
+      .populate('course', 'title description');
+
+    if (!certificate) {
+      return res.status(404).json({ error: 'Certificate not found' });
+    }
+
+    // Generate PDF
+    const pdfBuffer = await generateCertificatePDF({
+      certificateId: certificate.certificateId,
+      studentName: certificate.student.name,
+      courseTitle: certificate.course.title,
+      completionDate: certificate.completionDate,
+      issuedAt: certificate.issuedAt,
+      grade: certificate.grade,
+      verificationCode: certificate.verificationCode
+    });
+
+    // Set response headers
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=certificate-${certificate.certificateId}.pdf`);
+    res.setHeader('Content-Length', pdfBuffer.length);
+
+    // Send PDF
+    res.send(pdfBuffer);
+  } catch (error) {
+    console.error('Error generating certificate PDF:', error);
+    res.status(500).json({ error: 'Error generating certificate PDF' });
   }
 });
 

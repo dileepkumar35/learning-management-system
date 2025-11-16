@@ -30,12 +30,18 @@ import {
   Quiz as QuizIcon,
   Save,
 } from '@mui/icons-material';
-import Navbar from '../components/Navbar';
 import { coursesAPI, quizzesAPI } from '../services/api';
 
 const StyledCard = styled(Card)(({ theme }) => ({
   borderRadius: 12,
+  height: '100%',
+  padding: theme.spacing(3),
   boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+  transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+  '&:hover': {
+    transform: 'translateY(-4px)',
+    boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+  },
 }));
 
 const QuizManagement = () => {
@@ -200,8 +206,6 @@ const QuizManagement = () => {
 
   return (
     <Box sx={{ minHeight: '100vh', backgroundColor: '#f9fafb' }}>
-      <Navbar />
-
       <Container maxWidth="lg" sx={{ py: 4 }}>
         <Box sx={{ mb: 4 }}>
           <Button

@@ -5,6 +5,7 @@ const Course = require('../models/Course');
 const Module = require('../models/Module');
 const Lesson = require('../models/Lesson');
 const Quiz = require('../models/Quiz');
+const Enrollment = require('../models/Enrollment');
 const { authenticate, isInstructor } = require('../middleware/auth');
 
 // Get all published courses (public)
@@ -390,17 +391,39 @@ router.delete('/lessons/:lessonId', [authenticate, isInstructor], async (req, re
 router.get('/lessons/:lessonId', authenticate, async (req, res) => {
   try {
     const lesson = await Lesson.findById(req.params.lessonId)
-      .populate('module')
+      .populate({
+        path: 'module',
+        populate: { path: 'course' }
+      })
       .populate('quiz');
 
     if (!lesson) {
+      console.log('Lesson not found:', req.params.lessonId);
       return res.status(404).json({ error: 'Lesson not found' });
+    }
+
+    if (!lesson.module || !lesson.module.course) {
+      console.log('Lesson missing module or course data:', lesson._id);
+      return res.status(500).json({ error: 'Lesson data incomplete' });
+    }
+
+    // Check if user is enrolled or is the instructor
+    const enrollment = await Enrollment.findOne({
+      student: req.userId,
+      course: lesson.module.course._id
+    });
+
+    const isInstructor = lesson.module.course.instructor.toString() === req.userId.toString();
+
+    if (!enrollment && !isInstructor) {
+      console.log('User not enrolled or not instructor. UserId:', req.userId, 'CourseId:', lesson.module.course._id);
+      return res.status(403).json({ error: 'Not enrolled in this course' });
     }
 
     res.json(lesson);
   } catch (error) {
     console.error('Error fetching lesson:', error);
-    res.status(500).json({ error: 'Error fetching lesson' });
+    res.status(500).json({ error: 'Error fetching lesson', details: error.message });
   }
 });
 

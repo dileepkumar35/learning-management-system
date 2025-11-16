@@ -38,9 +38,9 @@ export const coursesAPI = {
   createModule: (courseId, data) => api.post(`/courses/${courseId}/modules`, data),
   updateModule: (moduleId, data) => api.put(`/courses/modules/${moduleId}`, data),
   deleteModule: (moduleId) => api.delete(`/courses/modules/${moduleId}`),
-  createLesson: (moduleId, data) => api.post(`/courses/modules/${moduleId}/lessons`, data),
-  updateLesson: (lessonId, data) => api.put(`/courses/lessons/${lessonId}`, data),
-  deleteLesson: (lessonId) => api.delete(`/courses/lessons/${lessonId}`),
+  createLesson: (courseId, moduleId, data) => api.post(`/courses/modules/${moduleId}/lessons`, data),
+  updateLesson: (courseId, moduleId, lessonId, data) => api.put(`/courses/lessons/${lessonId}`, data),
+  deleteLesson: (courseId, moduleId, lessonId) => api.delete(`/courses/lessons/${lessonId}`),
   getLesson: (lessonId) => api.get(`/courses/lessons/${lessonId}`),
 };
 
@@ -76,6 +76,15 @@ export const certificatesAPI = {
   getById: (certificateId) => api.get(`/certificates/${certificateId}`),
   verify: (verificationCode) => api.post('/certificates/verify', { verificationCode }),
   checkEligibility: (courseId) => api.get(`/certificates/check/${courseId}`),
+  downloadPDF: (certificateId) => {
+    const token = localStorage.getItem('token');
+    return fetch(`${API_URL}/certificates/download/${certificateId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+  }
 };
 
 // Instructor API

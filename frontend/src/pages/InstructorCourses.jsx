@@ -47,13 +47,14 @@ const StyledCard = styled(Card)(({ theme }) => ({
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
-  background: 'linear-gradient(135deg, #232536 0%, #2d2f42 100%)',
-  border: '1px solid rgba(255, 218, 27, 0.1)',
+  borderRadius: 16,
+  backgroundColor: '#fff',
+  boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+  border: '1px solid rgba(0,0,0,0.05)',
   transition: 'all 0.3s ease',
   '&:hover': {
     transform: 'translateY(-4px)',
-    boxShadow: '0 12px 24px rgba(0, 0, 0, 0.3)',
-    border: '1px solid rgba(255, 218, 27, 0.3)',
+    boxShadow: '0 12px 32px rgba(0,0,0,0.12)',
   },
 }));
 
@@ -249,23 +250,21 @@ const InstructorCourses = () => {
   }
 
   return (
-    <Container maxWidth="xl" sx={{ py: 4 }}>
-      <Box sx={{ mb: 4, display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'flex-start', sm: 'center' }, gap: 2 }}>
+    <Container maxWidth="xl" sx={{ py: { xs: 3, sm: 4, md: 5 }, px: { xs: 2, sm: 3 } }}>
+      <Box sx={{ mb: { xs: 3, sm: 4, md: 5 }, display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'flex-start', sm: 'center' }, gap: { xs: 2, sm: 3 } }}>
         <Box>
           <Typography
             variant="h4"
             sx={{
               fontWeight: 700,
-              color: '#fff',
+              color: '#232536',
               mb: 1,
-              background: 'linear-gradient(135deg, #ffda1b 0%, #ffc107 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
+              fontSize: { xs: '1.75rem', sm: '2rem', md: '2.125rem' },
             }}
           >
             My Courses
           </Typography>
-          <Typography variant="body1" sx={{ color: '#94a3b8' }}>
+          <Typography variant="body1" sx={{ color: '#64748b', fontSize: { xs: '0.875rem', sm: '1rem' } }}>
             Manage your courses, modules, and lessons
           </Typography>
         </Box>
@@ -282,14 +281,15 @@ const InstructorCourses = () => {
         <Box
           sx={{
             textAlign: 'center',
-            py: 8,
-            background: 'linear-gradient(135deg, #232536 0%, #2d2f42 100%)',
+            py: { xs: 6, sm: 8, md: 10 },
+            backgroundColor: '#fff',
             borderRadius: 3,
-            border: '1px solid rgba(255, 218, 27, 0.1)',
+            border: '1px solid rgba(0,0,0,0.08)',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
           }}
         >
-          <SchoolIcon sx={{ fontSize: 64, color: '#475569', mb: 2 }} />
-          <Typography variant="h6" sx={{ color: '#94a3b8', mb: 2 }}>
+          <SchoolIcon sx={{ fontSize: { xs: 60, sm: 80 }, color: '#e2e8f0', mb: 2 }} />
+          <Typography variant="h6" sx={{ color: '#64748b', mb: 2, fontSize: { xs: '1rem', sm: '1.25rem' } }}>
             No courses yet
           </Typography>
           <Typography variant="body2" sx={{ color: '#64748b' }}>
@@ -297,20 +297,21 @@ const InstructorCourses = () => {
           </Typography>
         </Box>
       ) : (
-        <Grid container spacing={3}>
+        <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
           {courses.map((course) => (
-            <Grid item xs={12} sm={6} md={4} key={course._id}>
+            <Grid item xs={12} sm={6} md={6} key={course._id}>
               <StyledCard>
-                <CardContent sx={{ flexGrow: 1, pb: 1 }}>
+                <CardContent sx={{ flexGrow: 1, pb: 1, p: { xs: 2.5, sm: 3, md: 3.5 } }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
                     <Typography
                       variant="h6"
                       sx={{
                         fontWeight: 600,
-                        color: '#fff',
+                        color: '#232536',
                         mb: 1,
                         flexGrow: 1,
                         pr: 1,
+                        fontSize: { xs: '1.125rem', sm: '1.25rem' },
                       }}
                     >
                       {course.title}
@@ -318,7 +319,7 @@ const InstructorCourses = () => {
                     <IconButton
                       size="small"
                       onClick={(e) => handleMenuOpen(e, course)}
-                      sx={{ color: '#94a3b8' }}
+                      sx={{ color: '#64748b' }}
                     >
                       <MoreVertIcon />
                     </IconButton>
@@ -327,18 +328,20 @@ const InstructorCourses = () => {
                   <Typography
                     variant="body2"
                     sx={{
-                      color: '#94a3b8',
+                      color: '#64748b',
                       mb: 2,
                       display: '-webkit-box',
                       WebkitLineClamp: 2,
                       WebkitBoxOrient: 'vertical',
                       overflow: 'hidden',
+                      lineHeight: 1.6,
+                      minHeight: '2.8em',
                     }}
                   >
                     {course.description}
                   </Typography>
 
-                  <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 2 }}>
+                  <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 3 }}>
                     <StatChip
                       size="small"
                       icon={<CheckCircleIcon />}
@@ -356,13 +359,16 @@ const InstructorCourses = () => {
                   {course.modules && course.modules.length > 0 && (
                     <Accordion
                       sx={{
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        color: '#fff',
+                        background: 'rgba(35, 37, 54, 0.02)',
+                        color: '#232536',
+                        border: '1px solid rgba(0,0,0,0.08)',
+                        borderRadius: '8px !important',
                         '&:before': { display: 'none' },
+                        boxShadow: 'none',
                       }}
                     >
-                      <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: '#ffda1b' }} />}>
-                        <Typography variant="body2" sx={{ color: '#ffda1b', fontWeight: 600 }}>
+                      <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: '#3b82f6' }} />}>
+                        <Typography variant="body2" sx={{ color: '#232536', fontWeight: 600 }}>
                           {course.modules.length} Module(s) • {course.stats?.totalLessons || 0} Lesson(s)
                         </Typography>
                       </AccordionSummary>
@@ -374,10 +380,10 @@ const InstructorCourses = () => {
                                 primary={module.title}
                                 secondary={`${module.lessons?.length || 0} lessons`}
                                 primaryTypographyProps={{
-                                  sx: { color: '#e2e8f0', fontSize: '0.875rem' },
+                                  sx: { color: '#232536', fontSize: '0.875rem' },
                                 }}
                                 secondaryTypographyProps={{
-                                  sx: { color: '#94a3b8', fontSize: '0.75rem' },
+                                  sx: { color: '#64748b', fontSize: '0.75rem' },
                                 }}
                               />
                             </ListItem>
@@ -393,17 +399,19 @@ const InstructorCourses = () => {
                   )}
                 </CardContent>
 
-                <CardActions sx={{ p: 2, pt: 0 }}>
+                <CardActions sx={{ p: { xs: 2, sm: 2.5, md: 3 }, pt: 0 }}>
                   <Button
                     fullWidth
                     variant="outlined"
                     onClick={() => handleManageCourse(course._id)}
                     sx={{
-                      borderColor: '#ffda1b',
-                      color: '#ffda1b',
+                      borderColor: '#3b82f6',
+                      color: '#3b82f6',
+                      fontWeight: 600,
+                      py: 1,
                       '&:hover': {
-                        borderColor: '#ffc107',
-                        background: 'rgba(255, 218, 27, 0.1)',
+                        borderColor: '#2563eb',
+                        background: 'rgba(59, 130, 246, 0.08)',
                       },
                     }}
                   >

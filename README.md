@@ -179,24 +179,53 @@ npm run dev
 
 ## Testing
 
-### Backend Tests
+### Quick Start
 
-The backend includes unit and integration tests for core functionality.
-
-#### Run all tests:
 ```bash
+# Start MongoDB (Docker)
+docker run -d -p 27017:27017 mongo:7
+
+# Run all tests
 cd backend
+npm install
 npm test
-```
 
-#### Run tests with coverage:
-```bash
+# Run with coverage report
 npm test -- --coverage
 ```
 
-#### Run specific test file:
+### Backend Tests
+
+The backend includes comprehensive unit and integration tests for all API endpoints.
+
+**Test Files:**
+- `tests/auth.test.js` - Authentication (register, login, profile)
+- `tests/courses.test.js` - Course management
+- `tests/enrollment.test.js` - Student enrollments
+
+#### Run Tests
+
 ```bash
-npm test -- auth.test.js
+cd backend
+
+# Run all tests
+npm test
+
+# Run with coverage report
+npm test -- --coverage
+
+# Run specific test file
+npm test auth.test.js
+
+# Run in watch mode (re-runs on changes)
+npm test -- --watch
+
+# Run specific test
+npm test -- -t "should register"
+
+# Generate HTML coverage report
+npm test -- --coverage --coverage-reporters=html
+# Then open coverage/index.html in browser
 ```
 
 **Note**: Tests require MongoDB to be running. You can either:
@@ -204,11 +233,25 @@ npm test -- auth.test.js
 - Start MongoDB with Docker: `docker run -d -p 27017:27017 mongo:7`
 - Set `MONGODB_URI_TEST` environment variable to point to your test database
 
+### 📚 Complete Testing Documentation
+
+Choose based on your needs:
+
+| Document | Purpose | Time |
+|----------|---------|------|
+| **[TESTING_INDEX.md](./TESTING_INDEX.md)** | 📍 **Start here** - Documentation roadmap | 5 min |
+| **[TESTING_FOR_BEGINNERS.md](./TESTING_FOR_BEGINNERS.md)** | 🆕 Step-by-step setup guide | 30 min |
+| **[TESTING_QUICK_REFERENCE.md](./TESTING_QUICK_REFERENCE.md)** | ⚡ Quick commands & recipes | 15 min |
+| **[TESTING.md](./TESTING.md)** | 📚 Comprehensive guide | 60 min |
+| **[TESTING_CHECKLIST.md](./TESTING_CHECKLIST.md)** | ✅ QA verification checklist | 30 min |
+| **[TESTING_GUIDE_SUMMARY.md](./TESTING_GUIDE_SUMMARY.md)** | 📋 Overview & strategies | 20 min |
+
 ### Manual Testing
 
 You can test the API endpoints using:
 - **Postman** or **Insomnia** - Import the API endpoints
 - **curl** - Use command line
+- **REST Client** VS Code extension
 - **Frontend** - Use the React application
 
 Example curl commands:
@@ -223,8 +266,12 @@ curl -X POST http://localhost:5000/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com","password":"password123"}'
 
-# Get courses (save token from login)
+# Get courses
 curl http://localhost:5000/api/courses
+
+# Get profile (use token from login)
+curl -H "Authorization: Bearer YOUR_TOKEN" \
+  http://localhost:5000/api/auth/me
 ```
 
 ## API Documentation

@@ -154,12 +154,13 @@ const LessonViewer = () => {
       setLesson(response.data);
       
       if (response.data.quiz) {
-        const quizResponse = await quizzesAPI.getById(response.data.quiz);
+        const quizId = typeof response.data.quiz === 'object' ? response.data.quiz._id : response.data.quiz;
+        const quizResponse = await quizzesAPI.getById(quizId);
         setQuiz(quizResponse.data);
         
         // Load quiz attempts
         try {
-          const attemptsResponse = await quizzesAPI.getAttempts(response.data.quiz);
+          const attemptsResponse = await quizzesAPI.getAttempts(quizId);
           setQuizAttempts(attemptsResponse.data || []);
         } catch (err) {
           console.error('Error loading quiz attempts:', err);
@@ -269,14 +270,15 @@ const LessonViewer = () => {
 
   return (
     <Box sx={{ minHeight: '100vh', backgroundColor: '#f9fafb' }}>
-      <Container maxWidth="lg">
-        <Box sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1, sm: 2 } }}>
+      <Container maxWidth="lg" sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1.5, sm: 2, md: 3 } }}>
+        <Box>
           <Button
             onClick={() => navigate(-1)}
             startIcon={<NavigateBeforeIcon />}
             sx={{
               mb: 2,
               color: '#232536',
+              fontSize: { xs: '0.9rem', sm: '1rem' },
               '&:hover': {
                 backgroundColor: 'rgba(255, 218, 27, 0.1)',
               },
@@ -293,13 +295,13 @@ const LessonViewer = () => {
 
           <StyledCard>
             <CardContent sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 3 }}>
-                <Box sx={{ flex: 1 }}>
-                  <Typography variant="h4" sx={{ fontWeight: 600, color: '#232536', mb: 1 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 3, flexWrap: 'wrap', gap: 2 }}>
+                <Box sx={{ flex: 1, minWidth: { xs: '100%', sm: 'auto' } }}>
+                  <Typography variant="h4" sx={{ fontWeight: 600, color: '#232536', mb: 1, fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2.125rem' } }}>
                     {lesson?.title}
                   </Typography>
                   {lesson?.description && (
-                    <Typography variant="body1" color="text.secondary" paragraph>
+                    <Typography variant="body1" color="text.secondary" paragraph sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}>
                       {lesson.description}
                     </Typography>
                   )}
@@ -309,7 +311,7 @@ const LessonViewer = () => {
                     icon={<CheckCircleIcon />}
                     label="Completed"
                     color="success"
-                    sx={{ ml: 2 }}
+                    sx={{ ml: { xs: 0, sm: 2 }, fontSize: { xs: '0.8rem', sm: '0.875rem' } }}
                   />
                 )}
               </Box>

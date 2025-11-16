@@ -99,7 +99,7 @@ const CourseDetail = () => {
 
   if (loading) {
     return (
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" sx={{ py: { xs: 2, sm: 3, md: 4 } }}>
         <Box sx={{ py: { xs: 2, sm: 4 } }}>
           <LinearProgress />
         </Box>
@@ -109,7 +109,7 @@ const CourseDetail = () => {
 
   if (error || !course) {
     return (
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" sx={{ py: { xs: 2, sm: 3, md: 4 } }}>
         <Alert severity="error" sx={{ mt: 4 }}>
           {error || 'Course not found'}
         </Alert>
@@ -118,30 +118,31 @@ const CourseDetail = () => {
   }
 
   return (
-    <Container maxWidth="lg">
-      <Box sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1, sm: 2 } }}>
-        <Card sx={{ mb: 3 }}>
-          <CardContent>
-            <Typography variant="h4" gutterBottom>
+    <Box sx={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
+      <Container maxWidth="lg" sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1.5, sm: 2, md: 3 } }}>
+      <Box sx={{ mb: { xs: 3, sm: 4, md: 5 } }}>
+        <Card sx={{ mb: 3, borderRadius: { xs: 2, sm: 3 }, boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
+          <CardContent sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
+            <Typography variant="h4" gutterBottom sx={{ fontWeight: 700, fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2.125rem' } }}>
               {course.title}
             </Typography>
-            <Typography variant="body1" paragraph sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}>
+            <Typography variant="body1" paragraph sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', lineHeight: 1.6, fontSize: { xs: '0.875rem', sm: '1rem' } }}>
               {course.description}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
               Instructor: {course.instructor?.name}
             </Typography>
             {enrolled && progress && (
               <Box sx={{ mt: 2 }}>
-                <Typography variant="body2" color="text.secondary" gutterBottom>
+                <Typography variant="body2" color="text.secondary" gutterBottom sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
                   Your Progress: {progress.completedLessons} / {progress.totalLessons} lessons
                 </Typography>
                 <LinearProgress
                   variant="determinate"
                   value={progress.progressPercentage}
-                  sx={{ height: 8, borderRadius: 1 }}
+                  sx={{ height: { xs: 6, sm: 8 }, borderRadius: 1 }}
                 />
-                <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+                <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5, fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
                   {progress.progressPercentage}%
                 </Typography>
               </Box>
@@ -151,7 +152,12 @@ const CourseDetail = () => {
                 variant="contained"
                 color="primary"
                 onClick={handleEnroll}
-                sx={{ mt: 2 }}
+                sx={{ 
+                  mt: 2,
+                  py: { xs: 1, sm: 1.2 },
+                  fontSize: { xs: '0.9rem', sm: '1rem' },
+                  fontWeight: 600,
+                }}
               >
                 Enroll in Course
               </Button>
@@ -159,43 +165,75 @@ const CourseDetail = () => {
           </CardContent>
         </Card>
 
-        <Typography variant="h5" gutterBottom>
+        <Typography variant="h5" gutterBottom sx={{ mb: { xs: 2, sm: 3 }, fontSize: { xs: '1.25rem', sm: '1.5rem' }, fontWeight: 600 }}>
           Course Content
         </Typography>
 
         {course.modules?.map((module, moduleIndex) => (
-          <Accordion key={module._id} defaultExpanded={moduleIndex === 0}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="h6">
+          <Accordion 
+            key={module._id} 
+            defaultExpanded={moduleIndex === 0}
+            sx={{
+              mb: { xs: 1.5, sm: 2 },
+              borderRadius: '8px !important',
+              '&:before': { display: 'none' },
+              boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+            }}
+          >
+            <AccordionSummary 
+              expandIcon={<ExpandMoreIcon />}
+              sx={{ py: { xs: 1.5, sm: 2 } }}
+            >
+              <Typography variant="h6" sx={{ fontWeight: 600, fontSize: { xs: '1rem', sm: '1.125rem', md: '1.25rem' } }}>
                 {module.title}
               </Typography>
             </AccordionSummary>
-            <AccordionDetails>
+            <AccordionDetails sx={{ p: { xs: 2, sm: 2.5, md: 3 } }}>
               {module.description && (
-                <Typography variant="body2" color="text.secondary" paragraph>
+                <Typography variant="body2" color="text.secondary" paragraph sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
                   {module.description}
                 </Typography>
               )}
-              <List>
+              <List sx={{ p: 0 }}>
                 {module.lessons?.map((lesson) => (
                   <Box key={lesson._id}>
-                    <ListItem disablePadding>
+                    <ListItem disablePadding sx={{ py: { xs: 0.5, sm: 0.75 } }}>
                       <ListItemButton
                         onClick={() => enrolled && navigate(`/lessons/${lesson._id}`)}
                         disabled={!enrolled}
+                        sx={{ 
+                          borderRadius: 1,
+                          py: { xs: 1, sm: 1.25 },
+                          px: { xs: 1.5, sm: 2 },
+                        }}
                       >
                         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
                           {enrolled && isLessonComplete(lesson._id) ? (
-                            <CheckCircleIcon color="success" sx={{ mr: 2, flexShrink: 0 }} />
+                            <CheckCircleIcon color="success" sx={{ mr: 2, flexShrink: 0, fontSize: { xs: 20, sm: 22, md: 24 } }} />
                           ) : (
-                            <PlayArrowIcon sx={{ mr: 2, flexShrink: 0 }} />
+                            <PlayArrowIcon sx={{ mr: 2, flexShrink: 0, fontSize: { xs: 20, sm: 22, md: 24 } }} />
                           )}
                           <ListItemText
                             primary={lesson.title}
                             secondary={lesson.description}
+                            primaryTypographyProps={{
+                              sx: { fontSize: { xs: '0.9rem', sm: '1rem' }, fontWeight: 500 }
+                            }}
+                            secondaryTypographyProps={{
+                              sx: { fontSize: { xs: '0.75rem', sm: '0.875rem' } }
+                            }}
                           />
                           {lesson.quiz && (
-                            <Chip label="Quiz" size="small" color="primary" sx={{ ml: 1 }} />
+                            <Chip 
+                              label="Quiz" 
+                              size="small" 
+                              color="primary" 
+                              sx={{ 
+                                ml: 1,
+                                fontSize: { xs: '0.7rem', sm: '0.75rem' },
+                                height: { xs: 20, sm: 24 },
+                              }} 
+                            />
                           )}
                         </Box>
                       </ListItemButton>
@@ -209,12 +247,13 @@ const CourseDetail = () => {
         ))}
 
         {course.modules?.length === 0 && (
-          <Alert severity="info">
+          <Alert severity="info" sx={{ borderRadius: 2, fontSize: { xs: '0.875rem', sm: '1rem' } }}>
             This course doesn't have any modules yet.
           </Alert>
         )}
       </Box>
-    </Container>
+      </Container>
+    </Box>
   );
 };
 

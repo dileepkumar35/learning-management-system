@@ -34,33 +34,43 @@ import { styled } from '@mui/material/styles';
 import { instructorAPI } from '../services/api';
 
 const StyledCard = styled(Card)(({ theme }) => ({
-  borderRadius: 12,
+  borderRadius: 16,
   height: '100%',
-  boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+  boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
   transition: 'all 0.3s ease',
+  backgroundColor: '#ffffff',
+  border: '1px solid #e2e8f0',
   '&:hover': {
     transform: 'translateY(-2px)',
-    boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+    boxShadow: '0 12px 28px rgba(0,0,0,0.12)',
+    borderColor: '#cbd5e1',
   },
 }));
 
 const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
-  background: 'linear-gradient(135deg, #232536 0%, #2d2f42 100%)',
-  border: '1px solid rgba(255, 218, 27, 0.1)',
+  background: '#ffffff',
+  border: '1px solid #e2e8f0',
+  borderRadius: 12,
+  overflow: 'hidden',
   '& .MuiTableCell-root': {
-    color: '#fff',
-    borderBottom: '1px solid rgba(255, 218, 27, 0.1)',
+    color: '#1e293b',
+    borderBottom: '1px solid #e2e8f0',
+    padding: theme.spacing(1.5),
   },
   '& .MuiTableCell-head': {
     fontWeight: 600,
-    background: 'rgba(255, 218, 27, 0.05)',
+    background: '#f8fafc',
+    color: '#334155',
+  },
+  '& tbody tr:hover': {
+    background: '#f8fafc',
   },
 }));
 
 const ProgressBar = styled(LinearProgress)(({ theme }) => ({
   height: 8,
   borderRadius: 4,
-  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+  backgroundColor: '#e2e8f0',
   '& .MuiLinearProgress-bar': {
     borderRadius: 4,
     background: 'linear-gradient(90deg, #10b981 0%, #059669 100%)',
@@ -131,16 +141,18 @@ const EnrolledStudents = () => {
   }
 
   return (
-    <Container maxWidth="xl" sx={{ py: 4 }}>
-      <Box sx={{ mb: 4 }}>
+    <Container maxWidth="xl" sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1.5, sm: 2, md: 3 }, backgroundColor: '#f8fafc', minHeight: '100vh' }}>
+      <Box sx={{ mb: { xs: 3, sm: 4, md: 5 } }}>
         <Button
           startIcon={<ArrowBackIcon />}
           onClick={() => navigate('/instructor/courses')}
           sx={{
-            color: '#ffda1b',
+            color: '#667eea',
             mb: 2,
+            fontSize: { xs: '0.9rem', sm: '1rem' },
+            fontWeight: 500,
             '&:hover': {
-              background: 'rgba(255, 218, 27, 0.1)',
+              background: 'rgba(102, 126, 234, 0.1)',
             },
           }}
         >
@@ -151,32 +163,30 @@ const EnrolledStudents = () => {
           variant="h4"
           sx={{
             fontWeight: 700,
-            color: '#fff',
+            color: '#1e293b',
             mb: 1,
-            background: 'linear-gradient(135deg, #ffda1b 0%, #ffc107 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
+            fontSize: { xs: '1.75rem', sm: '2rem', md: '2.125rem' },
           }}
         >
           {courseData?.title}
         </Typography>
-        <Typography variant="body1" sx={{ color: '#94a3b8', mb: 3 }}>
+        <Typography variant="body1" sx={{ color: '#64748b', mb: 3, fontSize: { xs: '0.875rem', sm: '1rem' } }}>
           {courseData?.description}
         </Typography>
 
-        <Grid container spacing={3} sx={{ mb: 4 }}>
-          <Grid item xs={12} sm={6} md={3}>
+        <Grid container spacing={{ xs: 2, sm: 3, md: 4 }} sx={{ mb: { xs: 4, sm: 5, md: 6 } }}>
+          <Grid item size={{ xs: 12, sm: 6, md: 3 }}>
             <StyledCard>
-              <CardContent>
+              <CardContent sx={{ p: { xs: 2, sm: 2.5, md: 3 } }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                  <Avatar sx={{ background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)', width: 56, height: 56 }}>
-                    <PersonIcon />
+                  <Avatar sx={{ background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)', width: { xs: 48, sm: 52, md: 56 }, height: { xs: 48, sm: 52, md: 56 } }}>
+                    <PersonIcon sx={{ fontSize: { xs: 24, sm: 26, md: 28 }, color: '#fff' }} />
                   </Avatar>
                   <Box>
-                    <Typography variant="h4" sx={{ color: '#fff', fontWeight: 700 }}>
+                    <Typography variant="h4" sx={{ color: '#1e293b', fontWeight: 700, fontSize: { xs: '1.75rem', sm: '2rem', md: '2.125rem' } }}>
                       {students.length}
                     </Typography>
-                    <Typography variant="body2" sx={{ color: '#94a3b8' }}>
+                    <Typography variant="body2" sx={{ color: '#64748b', fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
                       Total Students
                     </Typography>
                   </Box>
@@ -185,18 +195,18 @@ const EnrolledStudents = () => {
             </StyledCard>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item size={{ xs: 12, sm: 6, md: 3 }}>
             <StyledCard>
-              <CardContent>
+              <CardContent sx={{ p: { xs: 2, sm: 2.5, md: 3 } }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                  <Avatar sx={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', width: 56, height: 56 }}>
-                    <CheckCircleIcon />
+                  <Avatar sx={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', width: { xs: 48, sm: 52, md: 56 }, height: { xs: 48, sm: 52, md: 56 } }}>
+                    <CheckCircleIcon sx={{ fontSize: { xs: 24, sm: 26, md: 28 }, color: '#fff' }} />
                   </Avatar>
                   <Box>
-                    <Typography variant="h4" sx={{ color: '#fff', fontWeight: 700 }}>
+                    <Typography variant="h4" sx={{ color: '#1e293b', fontWeight: 700, fontSize: { xs: '1.75rem', sm: '2rem', md: '2.125rem' } }}>
                       {students.filter((s) => s.status === 'active').length}
                     </Typography>
-                    <Typography variant="body2" sx={{ color: '#94a3b8' }}>
+                    <Typography variant="body2" sx={{ color: '#64748b', fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
                       Active Students
                     </Typography>
                   </Box>
@@ -205,15 +215,15 @@ const EnrolledStudents = () => {
             </StyledCard>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item size={{ xs: 12, sm: 6, md: 3 }}>
             <StyledCard>
-              <CardContent>
+              <CardContent sx={{ p: { xs: 2, sm: 2.5, md: 3 } }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                  <Avatar sx={{ background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', width: 56, height: 56 }}>
-                    <TrendingUpIcon />
+                  <Avatar sx={{ background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', width: { xs: 48, sm: 52, md: 56 }, height: { xs: 48, sm: 52, md: 56 } }}>
+                    <TrendingUpIcon sx={{ fontSize: { xs: 24, sm: 26, md: 28 }, color: '#fff' }} />
                   </Avatar>
                   <Box>
-                    <Typography variant="h4" sx={{ color: '#fff', fontWeight: 700 }}>
+                    <Typography variant="h4" sx={{ color: '#1e293b', fontWeight: 700, fontSize: { xs: '1.75rem', sm: '2rem', md: '2.125rem' } }}>
                       {students.length > 0
                         ? Math.round(
                             students.reduce((sum, s) => sum + (s.progress?.progressPercentage || 0), 0) / students.length
@@ -221,7 +231,7 @@ const EnrolledStudents = () => {
                         : 0}
                       %
                     </Typography>
-                    <Typography variant="body2" sx={{ color: '#94a3b8' }}>
+                    <Typography variant="body2" sx={{ color: '#64748b', fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
                       Avg Progress
                     </Typography>
                   </Box>
@@ -230,15 +240,15 @@ const EnrolledStudents = () => {
             </StyledCard>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item size={{ xs: 12, sm: 6, md: 3 }}>
             <StyledCard>
-              <CardContent>
+              <CardContent sx={{ p: { xs: 2, sm: 2.5, md: 3 } }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                  <Avatar sx={{ background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)', width: 56, height: 56 }}>
-                    <AssignmentIcon />
+                  <Avatar sx={{ background: 'linear-gradient(135deg, #667eea 0%, #5568d3 100%)', width: { xs: 48, sm: 52, md: 56 }, height: { xs: 48, sm: 52, md: 56 } }}>
+                    <AssignmentIcon sx={{ fontSize: { xs: 24, sm: 26, md: 28 }, color: '#fff' }} />
                   </Avatar>
                   <Box>
-                    <Typography variant="h4" sx={{ color: '#fff', fontWeight: 700 }}>
+                    <Typography variant="h4" sx={{ color: '#1e293b', fontWeight: 700, fontSize: { xs: '1.75rem', sm: '2rem', md: '2.125rem' } }}>
                       {students.length > 0
                         ? Math.round(
                             students.reduce((sum, s) => sum + (s.progress?.avgQuizScore || 0), 0) / students.length
@@ -246,7 +256,7 @@ const EnrolledStudents = () => {
                         : 0}
                       %
                     </Typography>
-                    <Typography variant="body2" sx={{ color: '#94a3b8' }}>
+                    <Typography variant="body2" sx={{ color: '#64748b', fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
                       Avg Quiz Score
                     </Typography>
                   </Box>
@@ -259,12 +269,12 @@ const EnrolledStudents = () => {
 
       {students.length === 0 ? (
         <StyledCard>
-          <CardContent sx={{ textAlign: 'center', py: 8 }}>
-            <PersonIcon sx={{ fontSize: 64, color: '#475569', mb: 2 }} />
-            <Typography variant="h6" sx={{ color: '#94a3b8', mb: 1 }}>
+          <CardContent sx={{ textAlign: 'center', py: { xs: 6, sm: 7, md: 8 } }}>
+            <PersonIcon sx={{ fontSize: { xs: 56, sm: 60, md: 64 }, color: '#cbd5e1', mb: 2 }} />
+            <Typography variant="h6" sx={{ color: '#475569', mb: 1, fontSize: { xs: '1rem', sm: '1.1rem', md: '1.25rem' } }}>
               No students enrolled yet
             </Typography>
-            <Typography variant="body2" sx={{ color: '#64748b' }}>
+            <Typography variant="body2" sx={{ color: '#94a3b8', fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
               Students will appear here once they enroll in your course
             </Typography>
           </CardContent>
@@ -291,7 +301,7 @@ const EnrolledStudents = () => {
                   key={studentData.enrollmentId}
                   sx={{
                     '&:hover': {
-                      background: 'rgba(255, 218, 27, 0.05)',
+                      background: '#f8fafc',
                     },
                   }}
                 >
@@ -299,25 +309,25 @@ const EnrolledStudents = () => {
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                       <Avatar
                         sx={{
-                          background: 'linear-gradient(135deg, #ffda1b 0%, #ffc107 100%)',
-                          color: '#232536',
+                          background: 'linear-gradient(135deg, #667eea 0%, #5568d3 100%)',
+                          color: '#fff',
                           fontWeight: 600,
                         }}
                       >
                         {studentData.student.name.charAt(0).toUpperCase()}
                       </Avatar>
                       <Box>
-                        <Typography variant="body1" sx={{ color: '#fff', fontWeight: 500 }}>
+                        <Typography variant="body1" sx={{ color: '#1e293b', fontWeight: 500 }}>
                           {studentData.student.name}
                         </Typography>
-                        <Typography variant="caption" sx={{ color: '#94a3b8' }}>
+                        <Typography variant="caption" sx={{ color: '#64748b' }}>
                           {studentData.student.email}
                         </Typography>
                       </Box>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="body2" sx={{ color: '#94a3b8' }}>
+                    <Typography variant="body2" sx={{ color: '#64748b' }}>
                       {new Date(studentData.enrolledAt).toLocaleDateString()}
                     </Typography>
                   </TableCell>
@@ -331,10 +341,10 @@ const EnrolledStudents = () => {
                   <TableCell>
                     <Box sx={{ minWidth: 120 }}>
                       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                        <Typography variant="caption" sx={{ color: '#94a3b8' }}>
+                        <Typography variant="caption" sx={{ color: '#64748b' }}>
                           Progress
                         </Typography>
-                        <Typography variant="caption" sx={{ color: '#fff', fontWeight: 600 }}>
+                        <Typography variant="caption" sx={{ color: '#1e293b', fontWeight: 600 }}>
                           {studentData.progress.progressPercentage}%
                         </Typography>
                       </Box>
@@ -344,7 +354,7 @@ const EnrolledStudents = () => {
                         sx={{
                           height: 6,
                           borderRadius: 3,
-                          backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                          backgroundColor: '#e2e8f0',
                           '& .MuiLinearProgress-bar': {
                             borderRadius: 3,
                             background: `linear-gradient(90deg, ${getProgressColor(
@@ -356,12 +366,12 @@ const EnrolledStudents = () => {
                     </Box>
                   </TableCell>
                   <TableCell align="center">
-                    <Typography variant="body2" sx={{ color: '#fff' }}>
+                    <Typography variant="body2" sx={{ color: '#1e293b' }}>
                       {studentData.progress.completedLessons} / {studentData.progress.totalLessons}
                     </Typography>
                   </TableCell>
                   <TableCell align="center">
-                    <Typography variant="body2" sx={{ color: '#fff' }}>
+                    <Typography variant="body2" sx={{ color: '#1e293b' }}>
                       {studentData.progress.totalQuizAttempts}
                     </Typography>
                   </TableCell>
@@ -380,7 +390,7 @@ const EnrolledStudents = () => {
                     />
                   </TableCell>
                   <TableCell align="center">
-                    <Typography variant="caption" sx={{ color: '#94a3b8' }}>
+                    <Typography variant="caption" sx={{ color: '#64748b' }}>
                       {new Date(studentData.progress.lastAccessed).toLocaleDateString()}
                     </Typography>
                   </TableCell>
@@ -390,9 +400,9 @@ const EnrolledStudents = () => {
                         size="small"
                         onClick={() => handleViewDetails(studentData.student.id)}
                         sx={{
-                          color: '#ffda1b',
+                          color: '#667eea',
                           '&:hover': {
-                            background: 'rgba(255, 218, 27, 0.1)',
+                            background: 'rgba(102, 126, 234, 0.1)',
                           },
                         }}
                       >

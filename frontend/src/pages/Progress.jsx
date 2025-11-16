@@ -128,10 +128,10 @@ const Progress = () => {
 
   if (loading) {
     return (
-      <Box sx={{ minHeight: '100vh', backgroundColor: '#f9fafb' }}>
+      <Box sx={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
         <Container maxWidth="lg">
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
-            <LinearProgress sx={{ width: '50%' }} />
+          <Box sx={{ py: { xs: 2, sm: 3, md: 4 }, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+            <LinearProgress sx={{ width: '50%', color: '#667eea' }} />
           </Box>
         </Container>
       </Box>
@@ -162,13 +162,13 @@ const Progress = () => {
     : 0;
 
   return (
-    <Box sx={{ minHeight: '100vh', backgroundColor: '#f9fafb' }}>
-      <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Box sx={{ mb: 4 }}>
-          <Typography variant="h4" sx={{ fontWeight: 700, color: '#232536', mb: 1 }}>
+    <Box sx={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
+      <Container maxWidth="lg" sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1.5, sm: 2, md: 3 } }}>
+        <Box sx={{ mb: { xs: 3, sm: 4, md: 5 } }}>
+          <Typography variant="h4" sx={{ fontWeight: 700, color: '#232536', mb: 1, fontSize: { xs: '1.75rem', sm: '2rem', md: '2.125rem' } }}>
             My Learning Progress
           </Typography>
-          <Typography variant="body1" sx={{ color: '#64748b' }}>
+          <Typography variant="body1" sx={{ color: '#64748b', fontSize: { xs: '0.875rem', sm: '1rem' } }}>
             Track your learning journey and achievements
           </Typography>
         </Box>
@@ -180,56 +180,56 @@ const Progress = () => {
         )}
 
         {/* Statistics Cards */}
-        <Grid container spacing={3} sx={{ mb: 4 }}>
-          <Grid item xs={12} sm={6} md={3}>
+        <Grid container spacing={{ xs: 2, sm: 3, md: 4 }} sx={{ mb: { xs: 4, sm: 5, md: 6 } }}>
+          <Grid item size={{ xs: 12, sm: 6, md: 3 }}>
             <StatCard sx={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
-              <Assignment sx={{ fontSize: 48, mb: 1 }} />
-              <Typography variant="h3" sx={{ fontWeight: 600, mb: 0.5 }}>
+              <Assignment sx={{ fontSize: { xs: 40, sm: 44, md: 48 }, mb: 1 }} />
+              <Typography variant="h3" sx={{ fontWeight: 600, mb: 0.5, fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3rem' } }}>
                 {stats?.totalEnrollments || 0}
               </Typography>
-              <Typography variant="body2">Total Courses</Typography>
+              <Typography variant="body2" sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>Total Courses</Typography>
             </StatCard>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item size={{ xs: 12, sm: 6, md: 3 }}>
             <StatCard sx={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)' }}>
-              <CheckCircle sx={{ fontSize: 48, mb: 1 }} />
-              <Typography variant="h3" sx={{ fontWeight: 600, mb: 0.5 }}>
+              <CheckCircle sx={{ fontSize: { xs: 40, sm: 44, md: 48 }, mb: 1 }} />
+              <Typography variant="h3" sx={{ fontWeight: 600, mb: 0.5, fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3rem' } }}>
                 {stats?.completedCourses || 0}
               </Typography>
-              <Typography variant="body2">Completed</Typography>
+              <Typography variant="body2" sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>Completed</Typography>
             </StatCard>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item size={{ xs: 12, sm: 6, md: 3 }}>
             <StatCard sx={{ background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)' }}>
-              <TrendingUp sx={{ fontSize: 48, mb: 1 }} />
-              <Typography variant="h3" sx={{ fontWeight: 600, mb: 0.5 }}>
+              <TrendingUp sx={{ fontSize: { xs: 40, sm: 44, md: 48 }, mb: 1 }} />
+              <Typography variant="h3" sx={{ fontWeight: 600, mb: 0.5, fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3rem' } }}>
                 {averageProgress}%
               </Typography>
-              <Typography variant="body2">Avg. Progress</Typography>
+              <Typography variant="body2" sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>Avg. Progress</Typography>
             </StatCard>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item size={{ xs: 12, sm: 6, md: 3 }}>
             <StatCard sx={{ background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)' }}>
-              <EmojiEvents sx={{ fontSize: 48, mb: 1 }} />
-              <Typography variant="h3" sx={{ fontWeight: 600, mb: 0.5 }}>
+              <EmojiEvents sx={{ fontSize: { xs: 40, sm: 44, md: 48 }, mb: 1 }} />
+              <Typography variant="h3" sx={{ fontWeight: 600, mb: 0.5, fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3rem' } }}>
                 {completedLessons}
               </Typography>
-              <Typography variant="body2">Lessons Done</Typography>
+              <Typography variant="body2" sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>Lessons Done</Typography>
             </StatCard>
           </Grid>
         </Grid>
 
         {/* Charts */}
-        <Grid container spacing={3} sx={{ mb: 4 }}>
+        <Grid container spacing={{ xs: 2, sm: 3, md: 4 }} sx={{ mb: { xs: 4, sm: 5, md: 6 } }}>
           {/* Course Status Distribution */}
           {statusData.length > 0 && (
-            <Grid item xs={12} sm={12} md={6}>
+            <Grid item size={{ xs: 12, sm: 12, md: 6 }}>
               <StyledCard>
-                <CardContent>
-                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                <CardContent sx={{ p: { xs: 2, sm: 2.5, md: 3 } }}>
+                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 3, fontSize: { xs: '1rem', sm: '1.125rem', md: '1.25rem' } }}>
                     Course Status Distribution
                   </Typography>
                   <ResponsiveContainer width="100%" height={300}>
@@ -259,10 +259,10 @@ const Progress = () => {
 
           {/* Course Progress Bar Chart */}
           {progressData.length > 0 && (
-            <Grid item xs={12} sm={12} md={6}>
+            <Grid item size={{ xs: 12, sm: 12, md: 6 }}>
               <StyledCard>
-                <CardContent>
-                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                <CardContent sx={{ p: { xs: 2, sm: 2.5, md: 3 } }}>
+                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 3, fontSize: { xs: '1rem', sm: '1.125rem', md: '1.25rem' } }}>
                     Course Progress Overview
                   </Typography>
                   <ResponsiveContainer width="100%" height={300}>
@@ -283,28 +283,29 @@ const Progress = () => {
 
         {/* Detailed Course Progress */}
         <StyledCard>
-          <CardContent>
-            <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+          <CardContent sx={{ p: { xs: 2, sm: 2.5, md: 3 } }}>
+            <Typography variant="h6" sx={{ fontWeight: 600, mb: 3, fontSize: { xs: '1rem', sm: '1.125rem', md: '1.25rem' } }}>
               Detailed Course Progress
             </Typography>
 
             {enrollments.length === 0 ? (
-              <Alert severity="info" sx={{ borderRadius: 2 }}>
+              <Alert severity="info" sx={{ borderRadius: 2, fontSize: { xs: '0.875rem', sm: '1rem' } }}>
                 No courses enrolled yet. Start learning to see your progress here!
               </Alert>
             ) : (
               <Box>
                 {enrollments.map((enrollment, index) => (
                   <Box key={index}>
-                    <Box sx={{ mb: 3 }}>
-                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                        <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                    <Box sx={{ mb: { xs: 2.5, sm: 3 } }}>
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1, flexWrap: 'wrap', gap: 1 }}>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 600, fontSize: { xs: '0.95rem', sm: '1rem', md: '1.05rem' } }}>
                           {enrollment.course?.title || 'Unknown Course'}
                         </Typography>
                         <Chip
                           label={`${enrollment.progress}%`}
                           color={enrollment.progress === 100 ? 'success' : enrollment.progress > 0 ? 'primary' : 'default'}
                           size="small"
+                          sx={{ fontSize: { xs: '0.75rem', sm: '0.8rem' } }}
                         />
                       </Box>
 
@@ -313,7 +314,7 @@ const Progress = () => {
                           variant="determinate"
                           value={enrollment.progress}
                           sx={{
-                            height: 10,
+                            height: { xs: 8, sm: 10 },
                             borderRadius: 5,
                             backgroundColor: '#e5e7eb',
                             '& .MuiLinearProgress-bar': {

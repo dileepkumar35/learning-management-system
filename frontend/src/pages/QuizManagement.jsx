@@ -206,18 +206,21 @@ const QuizManagement = () => {
 
   return (
     <Box sx={{ minHeight: '100vh', backgroundColor: '#f9fafb' }}>
-      <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Box sx={{ mb: 4 }}>
+      <Container maxWidth="lg" sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1.5, sm: 2, md: 3 } }}>
+        <Box sx={{ mb: { xs: 3, sm: 4, md: 5 } }}>
           <Button
             onClick={() => navigate(`/instructor/courses/${courseId}`)}
-            sx={{ mb: 2 }}
+            sx={{ 
+              mb: 2,
+              fontSize: { xs: '0.9rem', sm: '1rem' },
+            }}
           >
             ← Back to Course
           </Button>
-          <Typography variant="h4" sx={{ fontWeight: 600, color: '#232536', mb: 1 }}>
+          <Typography variant="h4" sx={{ fontWeight: 600, color: '#232536', mb: 1, fontSize: { xs: '1.75rem', sm: '2rem', md: '2.125rem' } }}>
             Quiz Management
           </Typography>
-          <Typography variant="body1" color="text.secondary">
+          <Typography variant="body1" color="text.secondary" sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}>
             {course?.title}
           </Typography>
         </Box>
@@ -229,13 +232,13 @@ const QuizManagement = () => {
         )}
 
         <StyledCard>
-          <CardContent>
-            <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+          <CardContent sx={{ p: { xs: 2, sm: 2.5, md: 3 } }}>
+            <Typography variant="h6" sx={{ fontWeight: 600, mb: 3, fontSize: { xs: '1rem', sm: '1.125rem', md: '1.25rem' } }}>
               Lessons & Quizzes
             </Typography>
 
             {lessons.length === 0 ? (
-              <Alert severity="info">
+              <Alert severity="info" sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}>
                 No lessons found. Add lessons to create quizzes.
               </Alert>
             ) : (
@@ -244,18 +247,18 @@ const QuizManagement = () => {
                   <Paper
                     key={lesson._id}
                     sx={{
-                      p: 2,
+                      p: { xs: 2, sm: 2.5 },
                       mb: 2,
                       border: '1px solid #e5e7eb',
                       borderRadius: 2,
                     }}
                   >
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <Box sx={{ flex: 1 }}>
-                        <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
+                      <Box sx={{ flex: 1, minWidth: { xs: '100%', sm: 'auto' } }}>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 600, fontSize: { xs: '0.95rem', sm: '1rem' } }}>
                           {lesson.title}
                         </Typography>
-                        <Typography variant="caption" color="text.secondary">
+                        <Typography variant="caption" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.8rem' } }}>
                           Module: {lesson.moduleName}
                         </Typography>
                         {lesson.quiz && (
@@ -265,19 +268,23 @@ const QuizManagement = () => {
                               label="Quiz Available"
                               size="small"
                               color="success"
+                              sx={{ fontSize: { xs: '0.7rem', sm: '0.75rem' } }}
                             />
                           </Box>
                         )}
                       </Box>
 
-                      <Box sx={{ display: 'flex', gap: 1 }}>
+                      <Box sx={{ display: 'flex', gap: 1, width: { xs: '100%', sm: 'auto' } }}>
                         <Button
                           variant={lesson.quiz ? 'outlined' : 'contained'}
                           startIcon={lesson.quiz ? <Edit /> : <Add />}
                           onClick={() => handleOpenDialog(lesson)}
+                          fullWidth={true}
                           sx={{
                             backgroundColor: lesson.quiz ? 'transparent' : '#ffda1b',
                             color: lesson.quiz ? '#232536' : '#232536',
+                            py: { xs: 1, sm: 1.2 },
+                            fontSize: { xs: '0.875rem', sm: '1rem' },
                             '&:hover': {
                               backgroundColor: '#232536',
                               color: '#fff',

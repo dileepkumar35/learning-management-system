@@ -44,31 +44,33 @@ import { styled } from '@mui/material/styles';
 import { coursesAPI, instructorAPI } from '../services/api';
 
 const StyledCard = styled(Card)(({ theme }) => ({
-  height: '100%',
+  height: '480px',
   display: 'flex',
   flexDirection: 'column',
   borderRadius: 16,
-  backgroundColor: '#fff',
-  boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-  border: '1px solid rgba(0,0,0,0.05)',
-  transition: 'all 0.3s ease',
+  backgroundColor: '#ffffff',
+  boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+  border: '1px solid #e2e8f0',
+  transition: 'transform 0.2s ease, box-shadow 0.2s ease',
   '&:hover': {
     transform: 'translateY(-4px)',
-    boxShadow: '0 12px 32px rgba(0,0,0,0.12)',
+    boxShadow: '0 12px 28px rgba(0,0,0,0.12)',
+    borderColor: '#cbd5e1',
   },
 }));
 
 const StyledButton = styled(Button)(({ theme }) => ({
-  background: 'linear-gradient(135deg, #ffda1b 0%, #ffc107 100%)',
-  color: '#232536',
+  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+  color: '#ffffff',
   fontWeight: 600,
   padding: '10px 24px',
   borderRadius: '8px',
   textTransform: 'none',
+  boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)',
   '&:hover': {
-    background: 'linear-gradient(135deg, #ffc107 0%, #ffb300 100%)',
+    background: 'linear-gradient(135deg, #5568d3 0%, #6a4199 100%)',
     transform: 'translateY(-2px)',
-    boxShadow: '0 4px 12px rgba(255, 218, 27, 0.4)',
+    boxShadow: '0 6px 16px rgba(102, 126, 234, 0.4)',
   },
 }));
 
@@ -76,9 +78,10 @@ const StatChip = styled(Chip)(({ bgcolor }) => ({
   backgroundColor: bgcolor || '#10b981',
   color: '#fff',
   fontWeight: 600,
-  fontSize: '0.875rem',
+  fontSize: '0.8rem',
   '& .MuiChip-icon': {
     color: '#fff',
+    fontSize: '1rem',
   },
 }));
 
@@ -243,75 +246,81 @@ const InstructorCourses = () => {
 
   if (loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
-        <CircularProgress sx={{ color: '#ffda1b' }} />
+      <Box sx={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
+        <Container maxWidth="xl">
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+            <CircularProgress sx={{ color: '#667eea' }} />
+          </Box>
+        </Container>
       </Box>
     );
   }
 
   return (
-    <Container maxWidth="xl" sx={{ py: { xs: 3, sm: 4, md: 5 }, px: { xs: 2, sm: 3 } }}>
-      <Box sx={{ mb: { xs: 3, sm: 4, md: 5 }, display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'flex-start', sm: 'center' }, gap: { xs: 2, sm: 3 } }}>
-        <Box>
-          <Typography
-            variant="h4"
-            sx={{
-              fontWeight: 700,
-              color: '#232536',
-              mb: 1,
-              fontSize: { xs: '1.75rem', sm: '2rem', md: '2.125rem' },
-            }}
-          >
-            My Courses
-          </Typography>
-          <Typography variant="body1" sx={{ color: '#64748b', fontSize: { xs: '0.875rem', sm: '1rem' } }}>
-            Manage your courses, modules, and lessons
-          </Typography>
+    <Box sx={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
+      <Container maxWidth="xl" sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1.5, sm: 2, md: 3 } }}>
+        <Box sx={{ mb: { xs: 3, sm: 4, md: 5 } }}>
+          <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'flex-start', sm: 'center' }, mb: 2, gap: 2 }}>
+            <Box>
+              <Typography
+                variant="h4"
+                sx={{
+                  fontWeight: 700,
+                  color: '#1e293b',
+                  mb: 1,
+                  fontSize: { xs: '1.75rem', sm: '2rem', md: '2.125rem' },
+                }}
+              >
+                My Courses
+              </Typography>
+              <Typography variant="body1" sx={{ color: '#64748b', fontSize: { xs: '0.875rem', sm: '1rem' } }}>
+                Manage your courses, modules, and lessons
+              </Typography>
+            </Box>
+            <StyledButton 
+              startIcon={<AddIcon />} 
+              onClick={() => handleOpenDialog()}
+            >
+              Create Course
+            </StyledButton>
+          </Box>
         </Box>
-        <StyledButton 
-          startIcon={<AddIcon />} 
-          onClick={() => handleOpenDialog()}
-          sx={{ minWidth: { xs: '100%', sm: 'auto' } }}
-        >
-          Create Course
-        </StyledButton>
-      </Box>
 
       {courses.length === 0 ? (
         <Box
           sx={{
             textAlign: 'center',
             py: { xs: 6, sm: 8, md: 10 },
-            backgroundColor: '#fff',
+            backgroundColor: '#ffffff',
             borderRadius: 3,
-            border: '1px solid rgba(0,0,0,0.08)',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+            border: '1px solid #e2e8f0',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
           }}
         >
-          <SchoolIcon sx={{ fontSize: { xs: 60, sm: 80 }, color: '#e2e8f0', mb: 2 }} />
-          <Typography variant="h6" sx={{ color: '#64748b', mb: 2, fontSize: { xs: '1rem', sm: '1.25rem' } }}>
+          <SchoolIcon sx={{ fontSize: { xs: 60, sm: 70, md: 80 }, color: '#cbd5e1', mb: 2 }} />
+          <Typography variant="h6" sx={{ color: '#1e293b', mb: 1, fontSize: { xs: '1rem', sm: '1.125rem', md: '1.25rem' } }}>
             No courses yet
           </Typography>
-          <Typography variant="body2" sx={{ color: '#64748b' }}>
+          <Typography variant="body2" sx={{ color: '#64748b', fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
             Click the "Create Course" button above to get started
           </Typography>
         </Box>
       ) : (
         <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
           {courses.map((course) => (
-            <Grid item xs={12} sm={6} md={6} key={course._id}>
+            <Grid item xs={12} sm={12} md={6} lg={4} key={course._id}>
               <StyledCard>
-                <CardContent sx={{ flexGrow: 1, pb: 1, p: { xs: 2.5, sm: 3, md: 3.5 } }}>
+                <CardContent sx={{ flexGrow: 1, p: { xs: 2, sm: 2.5, md: 3 } }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
                     <Typography
                       variant="h6"
                       sx={{
                         fontWeight: 600,
-                        color: '#232536',
+                        color: '#1e293b',
                         mb: 1,
                         flexGrow: 1,
                         pr: 1,
-                        fontSize: { xs: '1.125rem', sm: '1.25rem' },
+                        fontSize: { xs: '1rem', sm: '1.1rem', md: '1.125rem' },
                       }}
                     >
                       {course.title}
@@ -319,7 +328,7 @@ const InstructorCourses = () => {
                     <IconButton
                       size="small"
                       onClick={(e) => handleMenuOpen(e, course)}
-                      sx={{ color: '#64748b' }}
+                      sx={{ color: '#64748b', '&:hover': { backgroundColor: '#f1f5f9' } }}
                     >
                       <MoreVertIcon />
                     </IconButton>
@@ -331,11 +340,12 @@ const InstructorCourses = () => {
                       color: '#64748b',
                       mb: 2,
                       display: '-webkit-box',
-                      WebkitLineClamp: 2,
+                      WebkitLineClamp: 3,
                       WebkitBoxOrient: 'vertical',
                       overflow: 'hidden',
                       lineHeight: 1.6,
-                      minHeight: '2.8em',
+                      height: '72px',
+                      fontSize: { xs: '0.8rem', sm: '0.875rem' },
                     }}
                   >
                     {course.description}
@@ -357,61 +367,63 @@ const InstructorCourses = () => {
                   </Box>
 
                   {course.modules && course.modules.length > 0 && (
-                    <Accordion
-                      sx={{
-                        background: 'rgba(35, 37, 54, 0.02)',
-                        color: '#232536',
-                        border: '1px solid rgba(0,0,0,0.08)',
-                        borderRadius: '8px !important',
-                        '&:before': { display: 'none' },
-                        boxShadow: 'none',
-                      }}
-                    >
-                      <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: '#3b82f6' }} />}>
-                        <Typography variant="body2" sx={{ color: '#232536', fontWeight: 600 }}>
-                          {course.modules.length} Module(s) • {course.stats?.totalLessons || 0} Lesson(s)
-                        </Typography>
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <List dense>
-                          {course.modules.slice(0, 3).map((module) => (
-                            <ListItem key={module._id} sx={{ px: 0 }}>
-                              <ListItemText
-                                primary={module.title}
-                                secondary={`${module.lessons?.length || 0} lessons`}
-                                primaryTypographyProps={{
-                                  sx: { color: '#232536', fontSize: '0.875rem' },
-                                }}
-                                secondaryTypographyProps={{
-                                  sx: { color: '#64748b', fontSize: '0.75rem' },
-                                }}
-                              />
-                            </ListItem>
-                          ))}
-                          {course.modules.length > 3 && (
-                            <Typography variant="caption" sx={{ color: '#64748b', pl: 2 }}>
-                              +{course.modules.length - 3} more modules
-                            </Typography>
-                          )}
-                        </List>
-                      </AccordionDetails>
-                    </Accordion>
+                    <Box sx={{ height: '140px', overflow: 'hidden' }}>
+                      <Accordion
+                        sx={{
+                          background: '#f8fafc',
+                          color: '#1e293b',
+                          border: '1px solid #e2e8f0',
+                          borderRadius: '8px !important',
+                          '&:before': { display: 'none' },
+                          boxShadow: 'none',
+                        }}
+                      >
+                        <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ color: '#667eea' }} />}>
+                          <Typography variant="body2" sx={{ color: '#1e293b', fontWeight: 600, fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
+                            {course.modules.length} Module(s) • {course.stats?.totalLessons || 0} Lesson(s)
+                          </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails sx={{ maxHeight: '90px', overflow: 'auto' }}>
+                          <List dense>
+                            {course.modules.slice(0, 3).map((module) => (
+                              <ListItem key={module._id} sx={{ px: 0 }}>
+                                <ListItemText
+                                  primary={module.title}
+                                  secondary={`${module.lessons?.length || 0} lessons`}
+                                  primaryTypographyProps={{
+                                    sx: { color: '#1e293b', fontSize: { xs: '0.8rem', sm: '0.875rem' }, fontWeight: 500 },
+                                  }}
+                                  secondaryTypographyProps={{
+                                    sx: { color: '#64748b', fontSize: { xs: '0.7rem', sm: '0.75rem' } },
+                                  }}
+                                />
+                              </ListItem>
+                            ))}
+                            {course.modules.length > 3 && (
+                              <Typography variant="caption" sx={{ color: '#64748b', pl: 2 }}>
+                                +{course.modules.length - 3} more modules
+                              </Typography>
+                            )}
+                          </List>
+                        </AccordionDetails>
+                      </Accordion>
+                    </Box>
                   )}
                 </CardContent>
 
                 <CardActions sx={{ p: { xs: 2, sm: 2.5, md: 3 }, pt: 0 }}>
                   <Button
                     fullWidth
-                    variant="outlined"
+                    variant="contained"
                     onClick={() => handleManageCourse(course._id)}
                     sx={{
-                      borderColor: '#3b82f6',
-                      color: '#3b82f6',
+                      backgroundColor: '#1e293b',
+                      color: '#fff',
                       fontWeight: 600,
-                      py: 1,
+                      py: { xs: 1, sm: 1.2 },
+                      fontSize: { xs: '0.9rem', sm: '1rem' },
                       '&:hover': {
-                        borderColor: '#2563eb',
-                        background: 'rgba(59, 130, 246, 0.08)',
+                        backgroundColor: '#667eea',
                       },
                     }}
                   >
@@ -431,25 +443,27 @@ const InstructorCourses = () => {
         onClose={handleMenuClose}
         PaperProps={{
           sx: {
-            background: '#232536',
-            color: '#fff',
-            border: '1px solid rgba(255, 218, 27, 0.2)',
+            background: '#ffffff',
+            color: '#1e293b',
+            border: '1px solid #e2e8f0',
+            boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
+            borderRadius: '8px',
           },
         }}
       >
-        <MenuItem onClick={() => handleViewStudents(selectedCourse?._id)}>
-          <PeopleIcon sx={{ mr: 1, fontSize: 20 }} />
+        <MenuItem onClick={() => handleViewStudents(selectedCourse?._id)} sx={{ '&:hover': { backgroundColor: '#f8fafc' } }}>
+          <PeopleIcon sx={{ mr: 1, fontSize: 20, color: '#667eea' }} />
           View Students
         </MenuItem>
-        <MenuItem onClick={() => handleManageCourse(selectedCourse?._id)}>
-          <SchoolIcon sx={{ mr: 1, fontSize: 20 }} />
+        <MenuItem onClick={() => handleManageCourse(selectedCourse?._id)} sx={{ '&:hover': { backgroundColor: '#f8fafc' } }}>
+          <SchoolIcon sx={{ mr: 1, fontSize: 20, color: '#667eea' }} />
           Manage Content
         </MenuItem>
-        <MenuItem onClick={() => handleOpenDialog(selectedCourse)}>
-          <EditIcon sx={{ mr: 1, fontSize: 20 }} />
+        <MenuItem onClick={() => handleOpenDialog(selectedCourse)} sx={{ '&:hover': { backgroundColor: '#f8fafc' } }}>
+          <EditIcon sx={{ mr: 1, fontSize: 20, color: '#667eea' }} />
           Edit Course
         </MenuItem>
-        <MenuItem onClick={() => handleDeleteClick(selectedCourse)} sx={{ color: '#ef4444' }}>
+        <MenuItem onClick={() => handleDeleteClick(selectedCourse)} sx={{ color: '#ef4444', '&:hover': { backgroundColor: '#fef2f2' } }}>
           <DeleteIcon sx={{ mr: 1, fontSize: 20 }} />
           Delete Course
         </MenuItem>
@@ -461,20 +475,19 @@ const InstructorCourses = () => {
         onClose={handleCloseDialog}
         maxWidth="sm"
         fullWidth
-        fullScreen={false}
         PaperProps={{
           sx: {
-            background: 'linear-gradient(135deg, #232536 0%, #2d2f42 100%)',
-            color: '#fff',
-            border: '1px solid rgba(255, 218, 27, 0.2)',
-            borderRadius: { xs: 0, sm: 2 },
-            m: { xs: 0, sm: 2 },
+            backgroundColor: '#ffffff',
+            borderRadius: '16px',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
           },
         }}
       >
         <DialogTitle 
           sx={{ 
-            borderBottom: '1px solid rgba(255, 218, 27, 0.1)',
+            color: '#1e293b',
+            fontWeight: 600,
+            borderBottom: '1px solid #e2e8f0',
             fontSize: { xs: '1.25rem', sm: '1.5rem' },
           }}
         >
@@ -491,13 +504,13 @@ const InstructorCourses = () => {
             autoFocus
             sx={{
               '& .MuiOutlinedInput-root': {
-                color: '#fff',
-                '& fieldset': { borderColor: 'rgba(255, 218, 27, 0.3)' },
-                '&:hover fieldset': { borderColor: 'rgba(255, 218, 27, 0.5)' },
-                '&.Mui-focused fieldset': { borderColor: '#ffda1b' },
+                color: '#1e293b',
+                '& fieldset': { borderColor: '#e2e8f0' },
+                '&:hover fieldset': { borderColor: '#667eea' },
+                '&.Mui-focused fieldset': { borderColor: '#667eea' },
               },
-              '& .MuiInputLabel-root': { color: '#94a3b8' },
-              '& .MuiInputLabel-root.Mui-focused': { color: '#ffda1b' },
+              '& .MuiInputLabel-root': { color: '#64748b' },
+              '& .MuiInputLabel-root.Mui-focused': { color: '#667eea' },
             }}
           />
           <TextField
@@ -511,13 +524,13 @@ const InstructorCourses = () => {
             rows={4}
             sx={{
               '& .MuiOutlinedInput-root': {
-                color: '#fff',
-                '& fieldset': { borderColor: 'rgba(255, 218, 27, 0.3)' },
-                '&:hover fieldset': { borderColor: 'rgba(255, 218, 27, 0.5)' },
-                '&.Mui-focused fieldset': { borderColor: '#ffda1b' },
+                color: '#1e293b',
+                '& fieldset': { borderColor: '#e2e8f0' },
+                '&:hover fieldset': { borderColor: '#667eea' },
+                '&.Mui-focused fieldset': { borderColor: '#667eea' },
               },
-              '& .MuiInputLabel-root': { color: '#94a3b8' },
-              '& .MuiInputLabel-root.Mui-focused': { color: '#ffda1b' },
+              '& .MuiInputLabel-root': { color: '#64748b' },
+              '& .MuiInputLabel-root.Mui-focused': { color: '#667eea' },
             }}
           />
           <TextField
@@ -529,18 +542,18 @@ const InstructorCourses = () => {
             placeholder="https://example.com/image.jpg"
             sx={{
               '& .MuiOutlinedInput-root': {
-                color: '#fff',
-                '& fieldset': { borderColor: 'rgba(255, 218, 27, 0.3)' },
-                '&:hover fieldset': { borderColor: 'rgba(255, 218, 27, 0.5)' },
-                '&.Mui-focused fieldset': { borderColor: '#ffda1b' },
+                color: '#1e293b',
+                '& fieldset': { borderColor: '#e2e8f0' },
+                '&:hover fieldset': { borderColor: '#667eea' },
+                '&.Mui-focused fieldset': { borderColor: '#667eea' },
               },
-              '& .MuiInputLabel-root': { color: '#94a3b8' },
-              '& .MuiInputLabel-root.Mui-focused': { color: '#ffda1b' },
-              '& .MuiInputBase-input::placeholder': { color: '#64748b', opacity: 0.7 },
+              '& .MuiInputLabel-root': { color: '#64748b' },
+              '& .MuiInputLabel-root.Mui-focused': { color: '#667eea' },
+              '& .MuiInputBase-input::placeholder': { color: '#94a3b8', opacity: 0.7 },
             }}
           />
           <Box sx={{ mt: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 2 }}>
-            <Typography variant="body2" sx={{ color: '#94a3b8', fontWeight: 500 }}>
+            <Typography variant="body2" sx={{ color: '#64748b', fontWeight: 500 }}>
               Status
             </Typography>
             <Button
@@ -548,13 +561,13 @@ const InstructorCourses = () => {
               size="small"
               onClick={() => setFormData({ ...formData, isPublished: !formData.isPublished })}
               sx={{
-                borderColor: '#ffda1b',
-                color: formData.isPublished ? '#232536' : '#ffda1b',
-                background: formData.isPublished ? '#ffda1b' : 'transparent',
+                borderColor: '#667eea',
+                color: formData.isPublished ? '#ffffff' : '#667eea',
+                background: formData.isPublished ? '#667eea' : 'transparent',
                 minWidth: '120px',
                 '&:hover': {
-                  borderColor: '#ffc107',
-                  background: formData.isPublished ? '#ffc107' : 'rgba(255, 218, 27, 0.1)',
+                  borderColor: '#5568d3',
+                  background: formData.isPublished ? '#5568d3' : 'rgba(102, 126, 234, 0.1)',
                 },
               }}
             >
@@ -562,13 +575,13 @@ const InstructorCourses = () => {
             </Button>
           </Box>
         </DialogContent>
-        <DialogActions sx={{ p: { xs: 2, sm: 3 }, pt: 2, borderTop: '1px solid rgba(255, 218, 27, 0.1)', gap: 1 }}>
+        <DialogActions sx={{ p: { xs: 2, sm: 3 }, pt: 2, borderTop: '1px solid #e2e8f0', gap: 1 }}>
           <Button 
             onClick={handleCloseDialog} 
             sx={{ 
-              color: '#94a3b8',
+              color: '#64748b',
               '&:hover': {
-                background: 'rgba(148, 163, 184, 0.1)',
+                background: '#f8fafc',
               },
             }}
           >
@@ -588,10 +601,10 @@ const InstructorCourses = () => {
         fullWidth
         PaperProps={{
           sx: {
-            background: 'linear-gradient(135deg, #232536 0%, #2d2f42 100%)',
-            color: '#fff',
-            border: '1px solid rgba(239, 68, 68, 0.3)',
-            borderRadius: { xs: 0, sm: 2 },
+            backgroundColor: '#ffffff',
+            borderRadius: '16px',
+            border: '1px solid #fecaca',
+            boxShadow: '0 8px 32px rgba(239, 68, 68, 0.15)',
           },
         }}
       >
@@ -599,10 +612,10 @@ const InstructorCourses = () => {
           Delete Course
         </DialogTitle>
         <DialogContent>
-          <Typography sx={{ color: '#e2e8f0' }}>
+          <Typography sx={{ color: '#1e293b' }}>
             Are you sure you want to delete <strong>"{selectedCourse?.title}"</strong>?
           </Typography>
-          <Typography sx={{ color: '#94a3b8', mt: 2, fontSize: '0.875rem' }}>
+          <Typography sx={{ color: '#64748b', mt: 2, fontSize: '0.875rem' }}>
             This will permanently delete all modules, lessons, and quizzes in this course. This action cannot be undone.
           </Typography>
         </DialogContent>
@@ -610,9 +623,9 @@ const InstructorCourses = () => {
           <Button 
             onClick={() => setDeleteDialogOpen(false)} 
             sx={{ 
-              color: '#94a3b8',
+              color: '#64748b',
               '&:hover': {
-                background: 'rgba(148, 163, 184, 0.1)',
+                background: '#f8fafc',
               },
             }}
           >
@@ -657,7 +670,8 @@ const InstructorCourses = () => {
           {snackbar.message}
         </Alert>
       </Snackbar>
-    </Container>
+      </Container>
+    </Box>
   );
 };
 

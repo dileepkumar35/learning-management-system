@@ -43,31 +43,32 @@ import {
 import { coursesAPI } from '../services/api';
 
 const StyledCard = styled(Card)(({ theme }) => ({
-  borderRadius: 12,
+  borderRadius: 16,
   height: '100%',
   padding: theme.spacing(3),
-  boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+  boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
   transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+  backgroundColor: '#ffffff',
+  border: '1px solid #e2e8f0',
   '&:hover': {
     transform: 'translateY(-2px)',
-    boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+    boxShadow: '0 12px 28px rgba(0,0,0,0.12)',
+    borderColor: '#cbd5e1',
   },
 }));
 
 const StatCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
-  borderRadius: 12,
+  borderRadius: 16,
   textAlign: 'center',
   color: '#fff',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  minHeight: '160px',
+  minHeight: '180px',
   height: '100%',
   width: '100%',
-  maxWidth: '200px',
-  margin: '0 auto',
 }));
 
 const CourseManagement = () => {
@@ -141,7 +142,7 @@ const CourseManagement = () => {
         await coursesAPI.createModule(courseId, moduleForm);
         setSnackbar({ open: true, message: 'Module created successfully!', severity: 'success' });
       } else {
-        await coursesAPI.updateModule(courseId, moduleDialog.data._id, moduleForm);
+        await coursesAPI.updateModule(moduleDialog.data._id, moduleForm);
         setSnackbar({ open: true, message: 'Module updated successfully!', severity: 'success' });
       }
       handleCloseModuleDialog();
@@ -157,7 +158,7 @@ const CourseManagement = () => {
       return;
     }
     try {
-      await coursesAPI.deleteModule(courseId, moduleId);
+      await coursesAPI.deleteModule(moduleId);
       setSnackbar({ open: true, message: 'Module deleted successfully!', severity: 'success' });
       loadCourseData();
     } catch (err) {
@@ -227,10 +228,10 @@ const CourseManagement = () => {
 
   if (loading) {
     return (
-      <Box sx={{ minHeight: '100vh', backgroundColor: '#232536' }}>
+      <Box sx={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
         <Container maxWidth="xl">
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
-            <CircularProgress sx={{ color: '#ffda1b' }} />
+            <CircularProgress sx={{ color: '#667eea' }} />
           </Box>
         </Container>
       </Box>
@@ -239,7 +240,7 @@ const CourseManagement = () => {
 
   if (error || !course) {
     return (
-      <Box sx={{ minHeight: '100vh', backgroundColor: '#232536' }}>
+      <Box sx={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
         <Container maxWidth="lg">
           <Alert severity="error" sx={{ mt: 4 }}>
             {error || 'Course not found'}
@@ -257,81 +258,87 @@ const CourseManagement = () => {
   );
 
   return (
-    <Box sx={{ minHeight: '100vh', backgroundColor: '#232536' }}>
-      <Container maxWidth="xl" sx={{ py: 4 }}>
+    <Box sx={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
+      <Container maxWidth="xl" sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1.5, sm: 2, md: 3 } }}>
         {/* Header */}
-        <Box sx={{ mb: 4 }}>
+        <Box sx={{ mb: { xs: 3, sm: 4, md: 5 } }}>
           <Button
             startIcon={<ArrowBack />}
             onClick={() => navigate('/instructor/courses')}
             sx={{
-              color: '#fff',
+              color: '#1e293b',
               mb: 2,
-              '&:hover': { color: '#ffda1b' },
+              fontSize: { xs: '0.9rem', sm: '1rem' },
+              '&:hover': { color: '#667eea', backgroundColor: '#f1f5f9' },
             }}
           >
             Back to Courses
           </Button>
-          <Typography variant="h4" sx={{ fontWeight: 700, color: '#fff', mb: 1 }}>
+          <Typography variant="h4" sx={{ fontWeight: 700, color: '#1e293b', mb: 1, fontSize: { xs: '1.75rem', sm: '2rem', md: '2.125rem' } }}>
             {course.title}
           </Typography>
-          <Typography variant="body1" sx={{ color: '#94a3b8' }}>
+          <Typography variant="body1" sx={{ color: '#64748b', fontSize: { xs: '0.875rem', sm: '1rem' } }}>
             Manage modules and lessons for this course
           </Typography>
         </Box>
 
         {/* Statistics Cards */}
-        <Grid container spacing={3} sx={{ mb: 4 }}>
-          <Grid item xs={12} sm={6} md={3}>
-            <StatCard sx={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
-              <MenuBook sx={{ fontSize: 40, mb: 1 }} />
-              <Typography variant="h4" sx={{ fontWeight: 600 }}>
+        <Grid container spacing={{ xs: 2, sm: 3, md: 4 }} sx={{ mb: { xs: 4, sm: 5, md: 6 } }}>
+          <Grid item size={{ xs: 12, sm: 6, md: 3 }}>
+            <StatCard sx={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', boxShadow: '0 4px 20px rgba(102, 126, 234, 0.25)' }}>
+              <MenuBook sx={{ fontSize: { xs: 32, sm: 36, md: 40 }, mb: 1 }} />
+              <Typography variant="h4" sx={{ fontWeight: 600, fontSize: { xs: '1.75rem', sm: '2rem', md: '2.125rem' } }}>
                 {totalModules}
               </Typography>
-              <Typography variant="body2">Modules</Typography>
+              <Typography variant="body2" sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>Modules</Typography>
             </StatCard>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item size={{ xs: 12, sm: 6, md: 3 }}>
             <StatCard sx={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)' }}>
-              <VideoLibrary sx={{ fontSize: 40, mb: 1 }} />
-              <Typography variant="h4" sx={{ fontWeight: 600 }}>
+              <VideoLibrary sx={{ fontSize: { xs: 32, sm: 36, md: 40 }, mb: 1 }} />
+              <Typography variant="h4" sx={{ fontWeight: 600, fontSize: { xs: '1.75rem', sm: '2rem', md: '2.125rem' } }}>
                 {totalLessons}
               </Typography>
-              <Typography variant="body2">Lessons</Typography>
+              <Typography variant="body2" sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>Lessons</Typography>
             </StatCard>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item size={{ xs: 12, sm: 6, md: 3 }}>
             <StatCard sx={{ background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)' }}>
-              <Assignment sx={{ fontSize: 40, mb: 1 }} />
-              <Typography variant="h4" sx={{ fontWeight: 600 }}>
+              <Assignment sx={{ fontSize: { xs: 32, sm: 36, md: 40 }, mb: 1 }} />
+              <Typography variant="h4" sx={{ fontWeight: 600, fontSize: { xs: '1.75rem', sm: '2rem', md: '2.125rem' } }}>
                 {Math.floor(totalDuration / 60)}h {totalDuration % 60}m
               </Typography>
-              <Typography variant="body2">Total Duration</Typography>
+              <Typography variant="body2" sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>Total Duration</Typography>
             </StatCard>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item size={{ xs: 12, sm: 6, md: 3 }}>
             <StatCard sx={{ background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)' }}>
-              <Assignment sx={{ fontSize: 40, mb: 1 }} />
-              <Typography variant="h4" sx={{ fontWeight: 600 }}>
+              <Assignment sx={{ fontSize: { xs: 32, sm: 36, md: 40 }, mb: 1 }} />
+              <Typography variant="h4" sx={{ fontWeight: 600, fontSize: { xs: '1.75rem', sm: '2rem', md: '2.125rem' } }}>
                 {course.enrolledCount || 0}
               </Typography>
-              <Typography variant="body2">Students</Typography>
+              <Typography variant="body2" sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>Students</Typography>
             </StatCard>
           </Grid>
         </Grid>
 
         {/* Create Module Button */}
-        <Box sx={{ mb: 3 }}>
+        <Box sx={{ mb: { xs: 2, sm: 3, md: 4 } }}>
           <Button
             variant="contained"
             startIcon={<Add />}
             onClick={() => handleOpenModuleDialog('create')}
             sx={{
-              backgroundColor: '#ffda1b',
-              color: '#232536',
+              backgroundColor: '#667eea',
+              color: '#ffffff',
               fontWeight: 600,
+              py: { xs: 1, sm: 1.2 },
+              px: { xs: 2.5, sm: 3 },
+              fontSize: { xs: '0.9rem', sm: '1rem' },
+              boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)',
               '&:hover': {
-                backgroundColor: '#fff',
+                backgroundColor: '#5568d3',
+                boxShadow: '0 6px 16px rgba(102, 126, 234, 0.4)',
               },
             }}
           >
@@ -341,13 +348,13 @@ const CourseManagement = () => {
 
         {/* Modules and Lessons */}
         {modules.length === 0 ? (
-          <StyledCard sx={{ backgroundColor: '#1e293b', border: '1px solid #334155' }}>
-            <CardContent sx={{ textAlign: 'center', py: 6 }}>
-              <MenuBook sx={{ fontSize: 80, color: '#64748b', mb: 2 }} />
-              <Typography variant="h6" sx={{ color: '#cbd5e1', mb: 1 }}>
+          <StyledCard>
+            <CardContent sx={{ textAlign: 'center', py: { xs: 4, sm: 5, md: 6 } }}>
+              <MenuBook sx={{ fontSize: { xs: 60, sm: 70, md: 80 }, color: '#cbd5e1', mb: 2 }} />
+              <Typography variant="h6" sx={{ color: '#1e293b', mb: 1, fontSize: { xs: '1rem', sm: '1.1rem', md: '1.25rem' } }}>
                 No modules yet
               </Typography>
-              <Typography variant="body2" sx={{ color: '#94a3b8' }}>
+              <Typography variant="body2" sx={{ color: '#64748b', fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
                 Click "Add Module" to create your first module
               </Typography>
             </CardContent>
@@ -359,32 +366,35 @@ const CourseManagement = () => {
                 key={module._id}
                 defaultExpanded={index === 0}
                 sx={{
-                  mb: 2,
-                  backgroundColor: '#1e293b',
-                  border: '1px solid #334155',
-                  borderRadius: '8px !important',
+                  mb: { xs: 1.5, sm: 2, md: 2 },
+                  backgroundColor: '#ffffff',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '12px !important',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
                   '&:before': { display: 'none' },
                   '&.Mui-expanded': {
                     margin: '0 0 16px 0',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                   },
                 }}
               >
                 <AccordionSummary
-                  expandIcon={<ExpandMore sx={{ color: '#ffda1b' }} />}
+                  expandIcon={<ExpandMore sx={{ color: '#667eea' }} />}
                   sx={{
+                    py: { xs: 1, sm: 1.2, md: 1.5 },
                     '& .MuiAccordionSummary-content': {
                       alignItems: 'center',
                     },
                   }}
                 >
-                  <Box sx={{ display: 'flex', alignItems: 'center', flex: 1, gap: 2 }}>
-                    <DragIndicator sx={{ color: '#64748b' }} />
+                  <Box sx={{ display: 'flex', alignItems: 'center', flex: 1, gap: { xs: 1, sm: 2 } }}>
+                    <DragIndicator sx={{ color: '#94a3b8', fontSize: { xs: 20, sm: 22, md: 24 } }} />
                     <Box sx={{ flex: 1 }}>
-                      <Typography variant="h6" sx={{ color: '#fff', fontWeight: 600 }}>
+                      <Typography variant="h6" sx={{ color: '#1e293b', fontWeight: 600, fontSize: { xs: '0.95rem', sm: '1.1rem', md: '1.25rem' } }}>
                         Module {module.order}: {module.title}
                       </Typography>
                       {module.description && (
-                        <Typography variant="body2" sx={{ color: '#94a3b8' }}>
+                        <Typography variant="body2" sx={{ color: '#64748b', fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
                           {module.description}
                         </Typography>
                       )}
@@ -393,17 +403,23 @@ const CourseManagement = () => {
                       label={`${module.lessons?.length || 0} lessons`}
                       size="small"
                       sx={{
-                        backgroundColor: '#334155',
-                        color: '#cbd5e1',
+                        backgroundColor: '#f1f5f9',
+                        color: '#475569',
+                        fontWeight: 500,
                       }}
                     />
+                  </Box>
+                </AccordionSummary>
+                <AccordionDetails sx={{ backgroundColor: '#f8fafc', borderTop: '1px solid #e2e8f0' }}>
+                  <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
                     <IconButton
                       size="small"
                       onClick={(e) => {
                         e.stopPropagation();
                         handleOpenModuleDialog('edit', module);
                       }}
-                      sx={{ color: '#ffda1b' }}
+                      sx={{ color: '#667eea', '&:hover': { backgroundColor: '#f1f5f9' } }}
+                      title="Edit Module"
                     >
                       <Edit fontSize="small" />
                     </IconButton>
@@ -413,22 +429,24 @@ const CourseManagement = () => {
                         e.stopPropagation();
                         handleDeleteModule(module._id);
                       }}
-                      sx={{ color: '#ef4444' }}
+                      sx={{ color: '#ef4444', '&:hover': { backgroundColor: '#fef2f2' } }}
+                      title="Delete Module"
                     >
                       <Delete fontSize="small" />
                     </IconButton>
                   </Box>
-                </AccordionSummary>
-                <AccordionDetails sx={{ backgroundColor: '#0f172a' }}>
-                  <Box sx={{ mb: 2 }}>
+                  <Box sx={{ mb: { xs: 1.5, sm: 2 } }}>
                     <Button
                       size="small"
                       startIcon={<Add />}
                       onClick={() => handleOpenLessonDialog('create', module._id)}
                       sx={{
-                        color: '#ffda1b',
+                        color: '#667eea',
+                        fontSize: { xs: '0.8rem', sm: '0.875rem' },
+                        py: { xs: 0.5, sm: 0.75 },
+                        fontWeight: 500,
                         '&:hover': {
-                          backgroundColor: 'rgba(255, 218, 27, 0.1)',
+                          backgroundColor: '#f1f5f9',
                         },
                       }}
                     >
@@ -440,26 +458,29 @@ const CourseManagement = () => {
                     <List sx={{ p: 0 }}>
                       {module.lessons.map((lesson, lessonIndex) => (
                         <Box key={lesson._id}>
-                          {lessonIndex > 0 && <Divider sx={{ borderColor: '#334155', my: 1 }} />}
+                          {lessonIndex > 0 && <Divider sx={{ borderColor: '#e2e8f0', my: { xs: 0.75, sm: 1 } }} />}
                           <ListItem
                             sx={{
-                              backgroundColor: '#1e293b',
+                              backgroundColor: '#ffffff',
                               borderRadius: 1,
-                              mb: 1,
+                              mb: { xs: 0.75, sm: 1 },
+                              py: { xs: 1, sm: 1.25 },
+                              border: '1px solid #e2e8f0',
                               '&:hover': {
-                                backgroundColor: '#334155',
+                                backgroundColor: '#f8fafc',
+                                borderColor: '#cbd5e1',
                               },
                             }}
                           >
-                            <DragIndicator sx={{ color: '#64748b', mr: 2 }} />
+                            <DragIndicator sx={{ color: '#94a3b8', mr: { xs: 1, sm: 2 }, fontSize: { xs: 20, sm: 22 } }} />
                             <ListItemText
                               primary={
-                                <Typography sx={{ color: '#fff', fontWeight: 500 }}>
+                                <Typography sx={{ color: '#1e293b', fontWeight: 500, fontSize: { xs: '0.9rem', sm: '1rem', md: '1.05rem' } }}>
                                   {lesson.order}. {lesson.title}
                                 </Typography>
                               }
                               secondary={
-                                <Box sx={{ display: 'flex', gap: 2, mt: 0.5 }}>
+                                <span style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '4px' }}>
                                   {lesson.duration > 0 && (
                                     <Chip
                                       label={`${lesson.duration} min`}
@@ -467,8 +488,8 @@ const CourseManagement = () => {
                                       sx={{
                                         height: 20,
                                         fontSize: '0.75rem',
-                                        backgroundColor: '#334155',
-                                        color: '#cbd5e1',
+                                        backgroundColor: '#f1f5f9',
+                                        color: '#475569',
                                       }}
                                     />
                                   )}
@@ -498,7 +519,7 @@ const CourseManagement = () => {
                                       }}
                                     />
                                   )}
-                                </Box>
+                                </span>
                               }
                             />
                             <ListItemSecondaryAction>
@@ -506,7 +527,7 @@ const CourseManagement = () => {
                                 edge="end"
                                 size="small"
                                 onClick={() => handleOpenLessonDialog('edit', module._id, lesson)}
-                                sx={{ color: '#ffda1b', mr: 1 }}
+                                sx={{ color: '#667eea', mr: 1, '&:hover': { backgroundColor: '#f1f5f9' } }}
                               >
                                 <Edit fontSize="small" />
                               </IconButton>
@@ -514,7 +535,7 @@ const CourseManagement = () => {
                                 edge="end"
                                 size="small"
                                 onClick={() => handleDeleteLesson(module._id, lesson._id)}
-                                sx={{ color: '#ef4444' }}
+                                sx={{ color: '#ef4444', '&:hover': { backgroundColor: '#fef2f2' } }}
                               >
                                 <Delete fontSize="small" />
                               </IconButton>
@@ -525,7 +546,7 @@ const CourseManagement = () => {
                     </List>
                   ) : (
                     <Box sx={{ textAlign: 'center', py: 3 }}>
-                      <Typography variant="body2" sx={{ color: '#94a3b8' }}>
+                      <Typography variant="body2" sx={{ color: '#64748b' }}>
                         No lessons yet. Click "Add Lesson" to create one.
                       </Typography>
                     </Box>
@@ -545,12 +566,13 @@ const CourseManagement = () => {
         fullWidth
         PaperProps={{
           sx: {
-            backgroundColor: '#1e293b',
-            border: '1px solid #334155',
+            backgroundColor: '#ffffff',
+            borderRadius: '16px',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
           },
         }}
       >
-        <DialogTitle sx={{ color: '#fff', fontWeight: 600 }}>
+        <DialogTitle sx={{ color: '#1e293b', fontWeight: 600 }}>
           {moduleDialog.mode === 'create' ? 'Create Module' : 'Edit Module'}
         </DialogTitle>
         <DialogContent>
@@ -563,14 +585,14 @@ const CourseManagement = () => {
             sx={{
               mt: 2,
               '& .MuiOutlinedInput-root': {
-                color: '#fff',
-                '& fieldset': { borderColor: '#334155' },
-                '&:hover fieldset': { borderColor: '#ffda1b' },
-                '&.Mui-focused fieldset': { borderColor: '#ffda1b' },
+                color: '#1e293b',
+                '& fieldset': { borderColor: '#e2e8f0' },
+                '&:hover fieldset': { borderColor: '#667eea' },
+                '&.Mui-focused fieldset': { borderColor: '#667eea' },
               },
               '& .MuiInputLabel-root': {
-                color: '#94a3b8',
-                '&.Mui-focused': { color: '#ffda1b' },
+                color: '#64748b',
+                '&.Mui-focused': { color: '#667eea' },
               },
             }}
           />
@@ -584,14 +606,14 @@ const CourseManagement = () => {
             sx={{
               mt: 2,
               '& .MuiOutlinedInput-root': {
-                color: '#fff',
-                '& fieldset': { borderColor: '#334155' },
-                '&:hover fieldset': { borderColor: '#ffda1b' },
-                '&.Mui-focused fieldset': { borderColor: '#ffda1b' },
+                color: '#1e293b',
+                '& fieldset': { borderColor: '#e2e8f0' },
+                '&:hover fieldset': { borderColor: '#667eea' },
+                '&.Mui-focused fieldset': { borderColor: '#667eea' },
               },
               '& .MuiInputLabel-root': {
-                color: '#94a3b8',
-                '&.Mui-focused': { color: '#ffda1b' },
+                color: '#64748b',
+                '&.Mui-focused': { color: '#667eea' },
               },
             }}
           />
@@ -604,20 +626,20 @@ const CourseManagement = () => {
             sx={{
               mt: 2,
               '& .MuiOutlinedInput-root': {
-                color: '#fff',
-                '& fieldset': { borderColor: '#334155' },
-                '&:hover fieldset': { borderColor: '#ffda1b' },
-                '&.Mui-focused fieldset': { borderColor: '#ffda1b' },
+                color: '#1e293b',
+                '& fieldset': { borderColor: '#e2e8f0' },
+                '&:hover fieldset': { borderColor: '#667eea' },
+                '&.Mui-focused fieldset': { borderColor: '#667eea' },
               },
               '& .MuiInputLabel-root': {
-                color: '#94a3b8',
-                '&.Mui-focused': { color: '#ffda1b' },
+                color: '#64748b',
+                '&.Mui-focused': { color: '#667eea' },
               },
             }}
           />
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2 }}>
-          <Button onClick={handleCloseModuleDialog} sx={{ color: '#94a3b8' }}>
+          <Button onClick={handleCloseModuleDialog} sx={{ color: '#64748b' }}>
             Cancel
           </Button>
           <Button
@@ -625,10 +647,10 @@ const CourseManagement = () => {
             variant="contained"
             disabled={!moduleForm.title}
             sx={{
-              backgroundColor: '#ffda1b',
-              color: '#232536',
-              '&:hover': { backgroundColor: '#fff' },
-              '&:disabled': { backgroundColor: '#334155', color: '#64748b' },
+              backgroundColor: '#667eea',
+              color: '#ffffff',
+              '&:hover': { backgroundColor: '#5568d3' },
+              '&:disabled': { backgroundColor: '#e2e8f0', color: '#94a3b8' },
             }}
           >
             {moduleDialog.mode === 'create' ? 'Create Module' : 'Update Module'}
@@ -644,12 +666,13 @@ const CourseManagement = () => {
         fullWidth
         PaperProps={{
           sx: {
-            backgroundColor: '#1e293b',
-            border: '1px solid #334155',
+            backgroundColor: '#ffffff',
+            borderRadius: '16px',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
           },
         }}
       >
-        <DialogTitle sx={{ color: '#fff', fontWeight: 600 }}>
+        <DialogTitle sx={{ color: '#1e293b', fontWeight: 600 }}>
           {lessonDialog.mode === 'create' ? 'Create Lesson' : 'Edit Lesson'}
         </DialogTitle>
         <DialogContent>
@@ -662,14 +685,14 @@ const CourseManagement = () => {
             sx={{
               mt: 2,
               '& .MuiOutlinedInput-root': {
-                color: '#fff',
-                '& fieldset': { borderColor: '#334155' },
-                '&:hover fieldset': { borderColor: '#ffda1b' },
-                '&.Mui-focused fieldset': { borderColor: '#ffda1b' },
+                color: '#1e293b',
+                '& fieldset': { borderColor: '#e2e8f0' },
+                '&:hover fieldset': { borderColor: '#667eea' },
+                '&.Mui-focused fieldset': { borderColor: '#667eea' },
               },
               '& .MuiInputLabel-root': {
-                color: '#94a3b8',
-                '&.Mui-focused': { color: '#ffda1b' },
+                color: '#64748b',
+                '&.Mui-focused': { color: '#667eea' },
               },
             }}
           />
@@ -684,14 +707,14 @@ const CourseManagement = () => {
             sx={{
               mt: 2,
               '& .MuiOutlinedInput-root': {
-                color: '#fff',
-                '& fieldset': { borderColor: '#334155' },
-                '&:hover fieldset': { borderColor: '#ffda1b' },
-                '&.Mui-focused fieldset': { borderColor: '#ffda1b' },
+                color: '#1e293b',
+                '& fieldset': { borderColor: '#e2e8f0' },
+                '&:hover fieldset': { borderColor: '#667eea' },
+                '&.Mui-focused fieldset': { borderColor: '#667eea' },
               },
               '& .MuiInputLabel-root': {
-                color: '#94a3b8',
-                '&.Mui-focused': { color: '#ffda1b' },
+                color: '#64748b',
+                '&.Mui-focused': { color: '#667eea' },
               },
             }}
           />
@@ -704,14 +727,14 @@ const CourseManagement = () => {
             sx={{
               mt: 2,
               '& .MuiOutlinedInput-root': {
-                color: '#fff',
-                '& fieldset': { borderColor: '#334155' },
-                '&:hover fieldset': { borderColor: '#ffda1b' },
-                '&.Mui-focused fieldset': { borderColor: '#ffda1b' },
+                color: '#1e293b',
+                '& fieldset': { borderColor: '#e2e8f0' },
+                '&:hover fieldset': { borderColor: '#667eea' },
+                '&.Mui-focused fieldset': { borderColor: '#667eea' },
               },
               '& .MuiInputLabel-root': {
-                color: '#94a3b8',
-                '&.Mui-focused': { color: '#ffda1b' },
+                color: '#64748b',
+                '&.Mui-focused': { color: '#667eea' },
               },
             }}
           />
@@ -725,14 +748,14 @@ const CourseManagement = () => {
                 onChange={(e) => setLessonForm({ ...lessonForm, duration: parseInt(e.target.value) })}
                 sx={{
                   '& .MuiOutlinedInput-root': {
-                    color: '#fff',
-                    '& fieldset': { borderColor: '#334155' },
-                    '&:hover fieldset': { borderColor: '#ffda1b' },
-                    '&.Mui-focused fieldset': { borderColor: '#ffda1b' },
+                    color: '#1e293b',
+                    '& fieldset': { borderColor: '#e2e8f0' },
+                    '&:hover fieldset': { borderColor: '#667eea' },
+                    '&.Mui-focused fieldset': { borderColor: '#667eea' },
                   },
                   '& .MuiInputLabel-root': {
-                    color: '#94a3b8',
-                    '&.Mui-focused': { color: '#ffda1b' },
+                    color: '#64748b',
+                    '&.Mui-focused': { color: '#667eea' },
                   },
                 }}
               />
@@ -746,14 +769,14 @@ const CourseManagement = () => {
                 onChange={(e) => setLessonForm({ ...lessonForm, order: parseInt(e.target.value) })}
                 sx={{
                   '& .MuiOutlinedInput-root': {
-                    color: '#fff',
-                    '& fieldset': { borderColor: '#334155' },
-                    '&:hover fieldset': { borderColor: '#ffda1b' },
-                    '&.Mui-focused fieldset': { borderColor: '#ffda1b' },
+                    color: '#1e293b',
+                    '& fieldset': { borderColor: '#e2e8f0' },
+                    '&:hover fieldset': { borderColor: '#667eea' },
+                    '&.Mui-focused fieldset': { borderColor: '#667eea' },
                   },
                   '& .MuiInputLabel-root': {
-                    color: '#94a3b8',
-                    '&.Mui-focused': { color: '#ffda1b' },
+                    color: '#64748b',
+                    '&.Mui-focused': { color: '#667eea' },
                   },
                 }}
               />
@@ -761,7 +784,7 @@ const CourseManagement = () => {
           </Grid>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2 }}>
-          <Button onClick={handleCloseLessonDialog} sx={{ color: '#94a3b8' }}>
+          <Button onClick={handleCloseLessonDialog} sx={{ color: '#64748b' }}>
             Cancel
           </Button>
           <Button
@@ -769,10 +792,10 @@ const CourseManagement = () => {
             variant="contained"
             disabled={!lessonForm.title}
             sx={{
-              backgroundColor: '#ffda1b',
-              color: '#232536',
-              '&:hover': { backgroundColor: '#fff' },
-              '&:disabled': { backgroundColor: '#334155', color: '#64748b' },
+              backgroundColor: '#667eea',
+              color: '#ffffff',
+              '&:hover': { backgroundColor: '#5568d3' },
+              '&:disabled': { backgroundColor: '#e2e8f0', color: '#94a3b8' },
             }}
           >
             {lessonDialog.mode === 'create' ? 'Create Lesson' : 'Update Lesson'}

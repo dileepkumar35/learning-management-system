@@ -155,10 +155,10 @@ const Certificates = () => {
 
   if (loading) {
     return (
-      <Box sx={{ minHeight: '100vh', backgroundColor: '#f9fafb' }}>
+      <Box sx={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
         <Container maxWidth="lg">
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
-            <LinearProgress sx={{ width: '50%' }} />
+          <Box sx={{ py: { xs: 2, sm: 3, md: 4 }, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+            <LinearProgress sx={{ width: '50%', color: '#667eea' }} />
           </Box>
         </Container>
       </Box>
@@ -166,8 +166,8 @@ const Certificates = () => {
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', backgroundColor: '#f9fafb' }}>
-      <Container maxWidth="lg" sx={{ py: 4 }}>
+    <Box sx={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
+      <Container maxWidth="lg" sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1.5, sm: 2, md: 3 } }}>
         <Box sx={{ mb: 4 }}>
           <Typography variant="h4" sx={{ fontWeight: 600, color: '#232536', mb: 1 }}>
             My Certificates

@@ -36,8 +36,10 @@ import { styled } from '@mui/material/styles';
 import { instructorAPI } from '../services/api';
 
 const StyledCard = styled(Card)(({ theme }) => ({
-  background: 'linear-gradient(135deg, #232536 0%, #2d2f42 100%)',
-  border: '1px solid rgba(255, 218, 27, 0.1)',
+  background: '#ffffff',
+  border: '1px solid #e2e8f0',
+  borderRadius: 12,
+  boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
   transition: 'all 0.3s ease',
 }));
 
@@ -55,9 +57,11 @@ const StatCard = styled(Card)(({ bgcolor }) => ({
 }));
 
 const ModuleCard = styled(Accordion)(({ theme }) => ({
-  background: 'linear-gradient(135deg, #232536 0%, #2d2f42 100%)',
-  border: '1px solid rgba(255, 218, 27, 0.1)',
+  background: '#ffffff',
+  border: '1px solid #e2e8f0',
+  borderRadius: 12,
   marginBottom: theme.spacing(2),
+  boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
   '&:before': {
     display: 'none',
   },
@@ -90,33 +94,39 @@ const StudentProgressDetail = () => {
 
   if (loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
-        <CircularProgress sx={{ color: '#ffda1b' }} />
+      <Box sx={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
+        <Container maxWidth="xl" sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1.5, sm: 2, md: 3 }, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+          <CircularProgress sx={{ color: '#667eea' }} />
+        </Container>
       </Box>
     );
   }
 
   if (!data) {
     return (
-      <Container maxWidth="xl" sx={{ py: 4 }}>
-        <Typography variant="h6" sx={{ color: '#94a3b8' }}>
-          No data available
-        </Typography>
-      </Container>
+      <Box sx={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
+        <Container maxWidth="xl" sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1.5, sm: 2, md: 3 } }}>
+          <Typography variant="h6" sx={{ color: '#64748b' }}>
+            No data available
+          </Typography>
+        </Container>
+      </Box>
     );
   }
 
   return (
-    <Container maxWidth="xl" sx={{ py: 4 }}>
-      <Box sx={{ mb: 4 }}>
+    <Box sx={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
+      <Container maxWidth="xl" sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1.5, sm: 2, md: 3 } }}>
+      <Box sx={{ mb: { xs: 3, sm: 4, md: 5 } }}>
         <Button
           startIcon={<ArrowBackIcon />}
           onClick={() => navigate(`/instructor/courses/${courseId}/students`)}
           sx={{
-            color: '#ffda1b',
+            color: '#667eea',
             mb: 2,
+            fontSize: { xs: '0.9rem', sm: '1rem' },
             '&:hover': {
-              background: 'rgba(255, 218, 27, 0.1)',
+              background: 'rgba(102, 126, 234, 0.1)',
             },
           }}
         >
@@ -125,16 +135,16 @@ const StudentProgressDetail = () => {
 
         {/* Student Header */}
         <StyledCard sx={{ mb: 3 }}>
-          <CardContent>
-            <Grid container spacing={3} alignItems="center">
+          <CardContent sx={{ p: { xs: 2, sm: 2.5, md: 3 } }}>
+            <Grid container spacing={{ xs: 2, sm: 3 }} alignItems="center">
               <Grid item>
                 <Avatar
                   sx={{
-                    width: 80,
-                    height: 80,
+                    width: { xs: 64, sm: 72, md: 80 },
+                    height: { xs: 64, sm: 72, md: 80 },
                     background: 'linear-gradient(135deg, #ffda1b 0%, #ffc107 100%)',
                     color: '#232536',
-                    fontSize: '2rem',
+                    fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2rem' },
                     fontWeight: 700,
                   }}
                 >
@@ -142,13 +152,13 @@ const StudentProgressDetail = () => {
                 </Avatar>
               </Grid>
               <Grid item xs>
-                <Typography variant="h4" sx={{ color: '#fff', fontWeight: 700, mb: 1 }}>
+                <Typography variant="h4" sx={{ color: '#1e293b', fontWeight: 700, mb: 1, fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2.125rem' } }}>
                   {data.student.name}
                 </Typography>
-                <Typography variant="body1" sx={{ color: '#94a3b8', mb: 1 }}>
+                <Typography variant="body1" sx={{ color: '#64748b', mb: 1, fontSize: { xs: '0.875rem', sm: '1rem' } }}>
                   {data.student.email}
                 </Typography>
-                <Typography variant="body2" sx={{ color: '#64748b' }}>
+                <Typography variant="body2" sx={{ color: '#94a3b8', fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
                   Enrolled on {new Date(data.enrollment.enrolledAt).toLocaleDateString()}
                 </Typography>
               </Grid>
@@ -175,29 +185,30 @@ const StudentProgressDetail = () => {
         <Typography
           variant="h5"
           sx={{
-            color: '#fff',
+            color: '#1e293b',
             fontWeight: 600,
             mb: 1,
+            fontSize: { xs: '1.25rem', sm: '1.375rem', md: '1.5rem' },
           }}
         >
           {data.course.title}
         </Typography>
-        <Typography variant="body2" sx={{ color: '#94a3b8', mb: 3 }}>
+        <Typography variant="body2" sx={{ color: '#64748b', mb: 3, fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
           {data.course.description}
         </Typography>
 
         {/* Stats Cards */}
-        <Grid container spacing={3} sx={{ mb: 4 }}>
-          <Grid item xs={12} sm={6} md={3}>
+        <Grid container spacing={{ xs: 2, sm: 3, md: 4 }} sx={{ mb: { xs: 4, sm: 5, md: 6 } }}>
+          <Grid item size={{ xs: 12, sm: 6, md: 3 }}>
             <StatCard bgcolor="linear-gradient(135deg, #10b981 0%, #059669 100%)">
-              <CardContent>
+              <CardContent sx={{ p: { xs: 2, sm: 2.5, md: 3 } }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center' }}>
-                  <TrendingUpIcon sx={{ fontSize: 40, color: '#fff', opacity: 0.8 }} />
+                  <TrendingUpIcon sx={{ fontSize: { xs: 32, sm: 36, md: 40 }, color: '#fff', opacity: 0.8 }} />
                   <Box>
-                    <Typography variant="h3" sx={{ color: '#fff', fontWeight: 700 }}>
+                    <Typography variant="h3" sx={{ color: '#fff', fontWeight: 700, fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3rem' } }}>
                       {data.summary.overallProgress}%
                     </Typography>
-                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                       Overall Progress
                     </Typography>
                   </Box>
@@ -206,16 +217,16 @@ const StudentProgressDetail = () => {
             </StatCard>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item size={{ xs: 12, sm: 6, md: 3 }}>
             <StatCard bgcolor="linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)">
-              <CardContent>
+              <CardContent sx={{ p: { xs: 2, sm: 2.5, md: 3 } }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center' }}>
-                  <CheckCircleIcon sx={{ fontSize: 40, color: '#fff', opacity: 0.8 }} />
+                  <CheckCircleIcon sx={{ fontSize: { xs: 32, sm: 36, md: 40 }, color: '#fff', opacity: 0.8 }} />
                   <Box>
-                    <Typography variant="h3" sx={{ color: '#fff', fontWeight: 700 }}>
+                    <Typography variant="h3" sx={{ color: '#fff', fontWeight: 700, fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3rem' } }}>
                       {data.summary.completedLessons}
                     </Typography>
-                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                       of {data.summary.totalLessons} Lessons
                     </Typography>
                   </Box>
@@ -224,16 +235,16 @@ const StudentProgressDetail = () => {
             </StatCard>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item size={{ xs: 12, sm: 6, md: 3 }}>
             <StatCard bgcolor="linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)">
-              <CardContent>
+              <CardContent sx={{ p: { xs: 2, sm: 2.5, md: 3 } }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center' }}>
-                  <AssignmentIcon sx={{ fontSize: 40, color: '#fff', opacity: 0.8 }} />
+                  <AssignmentIcon sx={{ fontSize: { xs: 32, sm: 36, md: 40 }, color: '#fff', opacity: 0.8 }} />
                   <Box>
-                    <Typography variant="h3" sx={{ color: '#fff', fontWeight: 700 }}>
+                    <Typography variant="h3" sx={{ color: '#fff', fontWeight: 700, fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3rem' } }}>
                       {data.summary.totalQuizAttempts}
                     </Typography>
-                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                       Quiz Attempts
                     </Typography>
                   </Box>
@@ -242,16 +253,16 @@ const StudentProgressDetail = () => {
             </StatCard>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item size={{ xs: 12, sm: 6, md: 3 }}>
             <StatCard bgcolor="linear-gradient(135deg, #f59e0b 0%, #d97706 100%)">
-              <CardContent>
+              <CardContent sx={{ p: { xs: 2, sm: 2.5, md: 3 } }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center' }}>
-                  <SchoolIcon sx={{ fontSize: 40, color: '#fff', opacity: 0.8 }} />
+                  <SchoolIcon sx={{ fontSize: { xs: 32, sm: 36, md: 40 }, color: '#fff', opacity: 0.8 }} />
                   <Box>
-                    <Typography variant="h3" sx={{ color: '#fff', fontWeight: 700 }}>
+                    <Typography variant="h3" sx={{ color: '#fff', fontWeight: 700, fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3rem' } }}>
                       {data.summary.avgQuizScore}%
                     </Typography>
-                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                       Avg Quiz Score
                     </Typography>
                   </Box>
@@ -262,14 +273,14 @@ const StudentProgressDetail = () => {
         </Grid>
 
         {/* Module Progress */}
-        <Typography variant="h5" sx={{ color: '#fff', fontWeight: 600, mb: 3 }}>
+        <Typography variant="h5" sx={{ color: '#1e293b', fontWeight: 600, mb: 3, fontSize: { xs: '1.25rem', sm: '1.375rem', md: '1.5rem' } }}>
           Detailed Progress
         </Typography>
 
         {data.modules.map((module) => (
           <ModuleCard key={module.moduleId}>
             <AccordionSummary
-              expandIcon={<ExpandMoreIcon sx={{ color: '#ffda1b' }} />}
+              expandIcon={<ExpandMoreIcon sx={{ color: '#667eea' }} />}
               sx={{
                 '& .MuiAccordionSummary-content': {
                   alignItems: 'center',
@@ -278,18 +289,18 @@ const StudentProgressDetail = () => {
               }}
             >
               <Box sx={{ flexGrow: 1 }}>
-                <Typography variant="h6" sx={{ color: '#fff', fontWeight: 600, mb: 1 }}>
+                <Typography variant="h6" sx={{ color: '#1e293b', fontWeight: 600, mb: 1, fontSize: { xs: '1rem', sm: '1.125rem', md: '1.25rem' } }}>
                   {module.title}
                 </Typography>
-                <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                  <Box sx={{ flexGrow: 1, maxWidth: 300 }}>
+                <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
+                  <Box sx={{ flexGrow: 1, maxWidth: { xs: 200, sm: 250, md: 300 } }}>
                     <LinearProgress
                       variant="determinate"
                       value={module.progressPercentage}
                       sx={{
-                        height: 8,
+                        height: { xs: 6, sm: 8 },
                         borderRadius: 4,
-                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                        backgroundColor: '#e2e8f0',
                         '& .MuiLinearProgress-bar': {
                           borderRadius: 4,
                           background: 'linear-gradient(90deg, #10b981 0%, #059669 100%)',
@@ -297,7 +308,7 @@ const StudentProgressDetail = () => {
                       }}
                     />
                   </Box>
-                  <Typography variant="body2" sx={{ color: '#94a3b8', minWidth: 80 }}>
+                  <Typography variant="body2" sx={{ color: '#64748b', minWidth: { xs: 70, sm: 80 }, fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                     {module.completedLessons} / {module.totalLessons} Lessons
                   </Typography>
                   <Chip
@@ -310,6 +321,7 @@ const StudentProgressDetail = () => {
                           : 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
                       color: '#fff',
                       fontWeight: 600,
+                      fontSize: { xs: '0.7rem', sm: '0.75rem' },
                     }}
                   />
                 </Box>
@@ -319,26 +331,26 @@ const StudentProgressDetail = () => {
               <List sx={{ width: '100%' }}>
                 {module.lessons.map((lesson, index) => (
                   <Box key={lesson.lessonId}>
-                    {index > 0 && <Divider sx={{ borderColor: 'rgba(255, 218, 27, 0.1)', my: 1 }} />}
+                    {index > 0 && <Divider sx={{ borderColor: '#e2e8f0', my: 1 }} />}
                     <ListItem sx={{ px: 0 }}>
                       <ListItemIcon>
                         {lesson.completed ? (
                           <CheckCircleIcon sx={{ color: '#10b981' }} />
                         ) : (
-                          <RadioButtonUncheckedIcon sx={{ color: '#64748b' }} />
+                          <RadioButtonUncheckedIcon sx={{ color: '#cbd5e1' }} />
                         )}
                       </ListItemIcon>
                       <ListItemText
                         primary={
-                          <Typography variant="body1" sx={{ color: lesson.completed ? '#fff' : '#94a3b8' }}>
+                          <Typography variant="body1" sx={{ color: lesson.completed ? '#1e293b' : '#64748b', fontSize: { xs: '0.875rem', sm: '1rem' } }}>
                             {lesson.title}
                           </Typography>
                         }
                         secondary={
                           <Box sx={{ mt: 1 }}>
                             {lesson.completed && lesson.completedAt && (
-                              <Typography variant="caption" sx={{ color: '#64748b', display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                                <AccessTimeIcon sx={{ fontSize: 14 }} />
+                              <Typography variant="caption" sx={{ color: '#64748b', display: 'flex', alignItems: 'center', gap: 0.5, fontSize: { xs: '0.7rem', sm: '0.75rem' } }}>
+                                <AccessTimeIcon sx={{ fontSize: { xs: 12, sm: 14 } }} />
                                 Completed on {new Date(lesson.completedAt).toLocaleDateString()}
                               </Typography>
                             )}
@@ -352,11 +364,13 @@ const StudentProgressDetail = () => {
                                     label={`Attempt ${idx + 1}: ${attempt.score}%`}
                                     sx={{
                                       background: attempt.passed
-                                        ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
-                                        : 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
-                                      color: '#fff',
+                                        ? '#d1fae5'
+                                        : '#fee2e2',
+                                      color: attempt.passed ? '#059669' : '#dc2626',
+                                      fontSize: { xs: '0.7rem', sm: '0.75rem' },
                                       '& .MuiChip-icon': {
-                                        color: '#fff',
+                                        color: attempt.passed ? '#059669' : '#dc2626',
+                                        fontSize: { xs: 14, sm: 16 },
                                       },
                                     }}
                                   />
@@ -374,7 +388,8 @@ const StudentProgressDetail = () => {
           </ModuleCard>
         ))}
       </Box>
-    </Container>
+      </Container>
+    </Box>
   );
 };
 

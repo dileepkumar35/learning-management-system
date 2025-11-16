@@ -164,26 +164,26 @@ const Assessments = () => {
 
     return (
       <Box sx={{ minHeight: '100vh', backgroundColor: '#f9fafb' }}>
-        <Container maxWidth="md" sx={{ py: 4 }}>
-          <Paper sx={{ p: 3, mb: 3, backgroundColor: '#232536', color: '#fff' }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-              <Typography variant="h6">{selectedQuiz.title}</Typography>
+        <Container maxWidth="md" sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1.5, sm: 2, md: 3 } }}>
+          <Paper sx={{ p: { xs: 2, sm: 2.5, md: 3 }, mb: { xs: 2, sm: 2.5, md: 3 }, backgroundColor: '#232536', color: '#fff' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2, flexWrap: 'wrap', gap: 1 }}>
+              <Typography variant="h6" sx={{ fontSize: { xs: '1rem', sm: '1.125rem', md: '1.25rem' } }}>{selectedQuiz.title}</Typography>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Timer />
-                <Typography variant="h6" sx={{ color: timeLeft < 60 ? '#ef4444' : '#fff' }}>
+                <Timer sx={{ fontSize: { xs: 20, sm: 24 } }} />
+                <Typography variant="h6" sx={{ color: timeLeft < 60 ? '#ef4444' : '#fff', fontSize: { xs: '1rem', sm: '1.125rem', md: '1.25rem' } }}>
                   {formatTime(timeLeft)}
                 </Typography>
               </Box>
             </Box>
-            <LinearProgress variant="determinate" value={progress} sx={{ backgroundColor: 'rgba(255,255,255,0.2)' }} />
-            <Typography variant="body2" sx={{ mt: 1 }}>
+            <LinearProgress variant="determinate" value={progress} sx={{ backgroundColor: 'rgba(255,255,255,0.2)', height: { xs: 6, sm: 8 } }} />
+            <Typography variant="body2" sx={{ mt: 1, fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
               Question {currentQuestion + 1} of {selectedQuiz.questions.length}
             </Typography>
           </Paper>
 
           <StyledCard>
-            <CardContent sx={{ p: 4 }}>
-              <Typography variant="h6" sx={{ mb: 3, fontWeight: 600 }}>
+            <CardContent sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
+              <Typography variant="h6" sx={{ mb: { xs: 2, sm: 2.5, md: 3 }, fontWeight: 600, fontSize: { xs: '1rem', sm: '1.125rem', md: '1.25rem' } }}>
                 {question.question}
               </Typography>
 
@@ -196,7 +196,7 @@ const Assessments = () => {
                     <Paper
                       key={index}
                       sx={{
-                        p: 2,
+                        p: { xs: 1.5, sm: 2 },
                         mb: 2,
                         cursor: 'pointer',
                         border: '2px solid',
@@ -220,12 +220,13 @@ const Assessments = () => {
                 </RadioGroup>
               </FormControl>
 
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: { xs: 3, sm: 4 }, flexWrap: 'wrap', gap: 2 }}>
                 <Button
                   variant="outlined"
                   startIcon={<NavigateBefore />}
                   onClick={handlePreviousQuestion}
                   disabled={currentQuestion === 0}
+                  sx={{ py: { xs: 1, sm: 1.2 }, fontSize: { xs: '0.875rem', sm: '1rem' } }}
                 >
                   Previous
                 </Button>
@@ -238,6 +239,8 @@ const Assessments = () => {
                     sx={{
                       backgroundColor: '#ffda1b',
                       color: '#232536',
+                      py: { xs: 1, sm: 1.2 },
+                      fontSize: { xs: '0.875rem', sm: '1rem' },
                       '&:hover': {
                         backgroundColor: '#232536',
                         color: '#fff',
@@ -254,6 +257,8 @@ const Assessments = () => {
                     sx={{
                       backgroundColor: '#ffda1b',
                       color: '#232536',
+                      py: { xs: 1, sm: 1.2 },
+                      fontSize: { xs: '0.875rem', sm: '1rem' },
                       '&:hover': {
                         backgroundColor: '#232536',
                         color: '#fff',
@@ -274,53 +279,53 @@ const Assessments = () => {
   // Results Dialog
   const ResultsDialog = () => (
     <Dialog open={quizCompleted} onClose={handleCloseResults} maxWidth="sm" fullWidth>
-      <DialogTitle sx={{ textAlign: 'center', pt: 4 }}>
+      <DialogTitle sx={{ textAlign: 'center', pt: { xs: 3, sm: 4 } }}>
         {score >= (selectedQuiz?.passingScore || 70) ? (
-          <CheckCircle sx={{ fontSize: 80, color: '#10b981', mb: 2 }} />
+          <CheckCircle sx={{ fontSize: { xs: 60, sm: 70, md: 80 }, color: '#10b981', mb: 2 }} />
         ) : (
-          <Cancel sx={{ fontSize: 80, color: '#ef4444', mb: 2 }} />
+          <Cancel sx={{ fontSize: { xs: 60, sm: 70, md: 80 }, color: '#ef4444', mb: 2 }} />
         )}
       </DialogTitle>
-      <DialogContent sx={{ textAlign: 'center' }}>
-        <Typography variant="h4" sx={{ fontWeight: 600, mb: 1 }}>
+      <DialogContent sx={{ textAlign: 'center', px: { xs: 2, sm: 3 } }}>
+        <Typography variant="h4" sx={{ fontWeight: 600, mb: 1, fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2.125rem' } }}>
           {score >= (selectedQuiz?.passingScore || 70) ? 'Congratulations!' : 'Keep Practicing!'}
         </Typography>
-        <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+        <Typography variant="body1" color="text.secondary" sx={{ mb: 3, fontSize: { xs: '0.875rem', sm: '1rem' } }}>
           {score >= (selectedQuiz?.passingScore || 70)
             ? 'You passed the assessment!'
             : 'You need more practice. Try again!'}
         </Typography>
 
-        <Paper sx={{ p: 3, backgroundColor: '#f9fafb', mb: 2 }}>
-          <Typography variant="h2" sx={{ fontWeight: 600, color: score >= (selectedQuiz?.passingScore || 70) ? '#10b981' : '#ef4444' }}>
+        <Paper sx={{ p: { xs: 2, sm: 2.5, md: 3 }, backgroundColor: '#f9fafb', mb: 2 }}>
+          <Typography variant="h2" sx={{ fontWeight: 600, color: score >= (selectedQuiz?.passingScore || 70) ? '#10b981' : '#ef4444', fontSize: { xs: '2.5rem', sm: '3rem', md: '3.75rem' } }}>
             {score}%
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
             Your Score
           </Typography>
         </Paper>
 
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <Typography variant="body2" color="text.secondary">
+        <Grid container spacing={{ xs: 1.5, sm: 2 }}>
+          <Grid item size={{ xs: 6 }}>
+            <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
               Passing Score
             </Typography>
-            <Typography variant="h6" sx={{ fontWeight: 600 }}>
+            <Typography variant="h6" sx={{ fontWeight: 600, fontSize: { xs: '1rem', sm: '1.125rem', md: '1.25rem' } }}>
               {selectedQuiz?.passingScore || 70}%
             </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <Typography variant="body2" color="text.secondary">
+          <Grid item size={{ xs: 6 }}>
+            <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
               Questions Answered
             </Typography>
-            <Typography variant="h6" sx={{ fontWeight: 600 }}>
+            <Typography variant="h6" sx={{ fontWeight: 600, fontSize: { xs: '1rem', sm: '1.125rem', md: '1.25rem' } }}>
               {Object.keys(answers).length} / {selectedQuiz?.questions?.length}
             </Typography>
           </Grid>
         </Grid>
       </DialogContent>
-      <DialogActions sx={{ justifyContent: 'center', pb: 3 }}>
-        <Button onClick={handleCloseResults} variant="outlined">
+      <DialogActions sx={{ justifyContent: 'center', pb: { xs: 2, sm: 3 }, px: { xs: 2, sm: 3 }, flexWrap: 'wrap', gap: 1 }}>
+        <Button onClick={handleCloseResults} variant="outlined" sx={{ py: { xs: 1, sm: 1.2 }, fontSize: { xs: '0.875rem', sm: '1rem' } }}>
           Close
         </Button>
         <Button
@@ -329,6 +334,8 @@ const Assessments = () => {
           sx={{
             backgroundColor: '#ffda1b',
             color: '#232536',
+            py: { xs: 1, sm: 1.2 },
+            fontSize: { xs: '0.875rem', sm: '1rem' },
             '&:hover': {
               backgroundColor: '#232536',
               color: '#fff',
@@ -344,31 +351,31 @@ const Assessments = () => {
   // Main Assessments List
   return (
     <Box sx={{ minHeight: '100vh', backgroundColor: '#f9fafb' }}>
-      <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Box sx={{ mb: 4 }}>
-          <Typography variant="h4" sx={{ fontWeight: 600, color: '#232536', mb: 1 }}>
+      <Container maxWidth="lg" sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1.5, sm: 2, md: 3 } }}>
+        <Box sx={{ mb: { xs: 3, sm: 4 } }}>
+          <Typography variant="h4" sx={{ fontWeight: 600, color: '#232536', mb: 1, fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2.125rem' } }}>
             Assessments
           </Typography>
-          <Typography variant="body1" color="text.secondary">
+          <Typography variant="body1" color="text.secondary" sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}>
             Test your knowledge and track your progress
           </Typography>
         </Box>
 
         {error && (
-          <Alert severity="error" sx={{ mb: 3, borderRadius: 2 }}>
+          <Alert severity="error" sx={{ mb: 3, borderRadius: 2, fontSize: { xs: '0.875rem', sm: '1rem' } }}>
             {error}
           </Alert>
         )}
 
-        <Grid container spacing={3}>
+        <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
           {quizzes.length === 0 && (
-            <Grid item xs={12}>
-              <Box sx={{ textAlign: 'center', py: 8 }}>
-                <Quiz sx={{ fontSize: 80, color: '#e2e8f0', mb: 2 }} />
-                <Typography variant="h6" color="text.secondary" gutterBottom>
+            <Grid item size={{ xs: 12 }}>
+              <Box sx={{ textAlign: 'center', py: { xs: 6, sm: 7, md: 8 } }}>
+                <Quiz sx={{ fontSize: { xs: 60, sm: 70, md: 80 }, color: '#e2e8f0', mb: 2 }} />
+                <Typography variant="h6" color="text.secondary" gutterBottom sx={{ fontSize: { xs: '1rem', sm: '1.125rem', md: '1.25rem' } }}>
                   No assessments available
                 </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 3, fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                   Complete some lessons to unlock quizzes
                 </Typography>
                 <Button
@@ -377,6 +384,8 @@ const Assessments = () => {
                   sx={{
                     backgroundColor: '#ffda1b',
                     color: '#232536',
+                    py: { xs: 1, sm: 1.2 },
+                    fontSize: { xs: '0.875rem', sm: '1rem' },
                     '&:hover': {
                       backgroundColor: '#232536',
                       color: '#fff',

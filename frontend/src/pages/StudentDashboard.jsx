@@ -109,10 +109,10 @@ const StudentDashboard = () => {
 
   if (loading) {
     return (
-      <Box sx={{ minHeight: '100vh', backgroundColor: '#f9fafb' }}>
+      <Box sx={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
         <Container maxWidth="lg">
-          <Box sx={{ py: { xs: 2, sm: 4 } }}>
-            <LinearProgress />
+          <Box sx={{ py: { xs: 2, sm: 3, md: 4 }, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+            <LinearProgress sx={{ width: '50%', color: '#667eea' }} />
           </Box>
         </Container>
       </Box>
@@ -121,11 +121,9 @@ const StudentDashboard = () => {
 
   if (error) {
     return (
-      <Box sx={{ minHeight: '100vh', backgroundColor: '#f9fafb' }}>
-        <Container maxWidth="lg">
-          <Alert severity="error" sx={{ mt: 4 }}>
-            {error}
-          </Alert>
+      <Box sx={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
+        <Container maxWidth="lg" sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1.5, sm: 2, md: 3 } }}>
+          <Alert severity="error">{error}</Alert>
         </Container>
       </Box>
     );
@@ -137,8 +135,8 @@ const StudentDashboard = () => {
   const totalLessons = dashboard?.courses.reduce((sum, c) => sum + c.completedLessons, 0) || 0;
 
   return (
-    <Box sx={{ minHeight: '100vh', backgroundColor: '#f9fafb' }}>
-      <Container maxWidth="lg" sx={{ py: 4 }}>
+    <Box sx={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
+      <Container maxWidth="lg" sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1.5, sm: 2, md: 3 } }}>
         <Box sx={{ mb: 4 }}>
           <Typography variant="h4" sx={{ fontWeight: 700, color: '#232536', mb: 1 }}>
             My Dashboard
@@ -150,7 +148,7 @@ const StudentDashboard = () => {
 
         {/* Statistics Cards */}
         <Grid container spacing={3} sx={{ mb: 4 }}>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <StatCard sx={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
               <Assignment sx={{ fontSize: 40, mb: 1 }} />
               <Typography variant="h4" sx={{ fontWeight: 600 }}>
@@ -159,7 +157,7 @@ const StudentDashboard = () => {
               <Typography variant="body2">Enrolled</Typography>
             </StatCard>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <StatCard sx={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)' }}>
               <CheckCircle sx={{ fontSize: 40, mb: 1 }} />
               <Typography variant="h4" sx={{ fontWeight: 600 }}>
@@ -168,7 +166,7 @@ const StudentDashboard = () => {
               <Typography variant="body2">Completed</Typography>
             </StatCard>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <StatCard sx={{ background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)' }}>
               <TrendingUp sx={{ fontSize: 40, mb: 1 }} />
               <Typography variant="h4" sx={{ fontWeight: 600 }}>
@@ -177,7 +175,7 @@ const StudentDashboard = () => {
               <Typography variant="body2">In Progress</Typography>
             </StatCard>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <StatCard sx={{ background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)' }}>
               <EmojiEvents sx={{ fontSize: 40, mb: 1 }} />
               <Typography variant="h4" sx={{ fontWeight: 600 }}>
@@ -204,7 +202,7 @@ const StudentDashboard = () => {
                 {dashboard?.courses.map((course) => {
                   const eligibility = certificateEligibility[course.courseId];
                   return (
-                    <Grid item xs={12} sm={6} md={4} key={course.courseId}>
+                    <Grid size={{ xs: 12, sm: 6, md: 4 }} key={course.courseId}>
                       <StyledCard>
                         <CardContent sx={{ flexGrow: 1 }}>
                           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 2 }}>
@@ -326,10 +324,10 @@ const StudentDashboard = () => {
                   </Typography>
                   <Grid container spacing={2}>
                     {dashboard.recentQuizzes.slice(0, 5).map((attempt) => (
-                      <Grid item xs={12} key={attempt._id}>
+                      <Grid size={12} key={attempt._id}>
                         <Paper variant="outlined" sx={{ p: 2, borderRadius: 2 }}>
                           <Grid container alignItems="center" spacing={2}>
-                            <Grid item xs>
+                            <Grid size={{ xs: 'grow' }}>
                               <Typography variant="body1" sx={{ fontWeight: 500 }}>
                                 {attempt.lesson?.title}
                               </Typography>
@@ -337,7 +335,7 @@ const StudentDashboard = () => {
                                 {new Date(attempt.attemptedAt).toLocaleDateString()}
                               </Typography>
                             </Grid>
-                            <Grid item>
+                            <Grid size="auto">
                               <Chip
                                 label={`${attempt.score}%`}
                                 color={attempt.passed ? 'success' : 'error'}
